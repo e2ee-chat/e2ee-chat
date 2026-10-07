@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block main %}
+<div class="max-w-lg mx-auto px-2 mt-2 mb-8">
+  <div class="flex justify-between items-center mb-5">
+    <div class="flex items-center gap-1.5 font-semibold">
+      <a href="{{ url_for('home') }}" class="btn btn-ghost btn-circle">
+        <span class="icon icon-arrow-back"></span>
+      </a>
+      {{ name }}
+    </div>
+    <div class="dropdown dropdown-end">
+      <div tabindex="0" role="button" class="btn btn-ghost btn-circle">
+        <span class="icon icon-more"></span>
+      </div>
+      <ul tabindex="-1" class="dropdown-content menu bg-base-100 rounded-box border border-base-300
+        z-1 w-52 mt-1.5 shadow-md"
+      >
+        <li><button onclick="delete_chat_modal.showModal()">Delete chat</button></li>
+      </ul>
+    </div>
+  </div>
+  <form method="post" class="border border-base-300 p-5 rounded-box">
+    <p class="text-sm text-base-content/50">
+      Send your public key to the other party.
+      Paste the public key received from the other party.
+    </p>
+    <div class="text-sm mt-4 mb-1">
+      <label for="public-key">Public key</label>
+    </div>
+    <input type="text" id="public-key" value="{{ public_key }}" class="input w-full" readonly>
+    <button type="button" data-copy-target="public-key" class="btn mt-1.5 disabled:text-base-content/80">
+      Copy public key
+    </button>
+    <div class="text-sm mt-4 mb-1">
+      <label for="peer-public-key">Peer public key</label>
+    </div>
+    <input type="text" id="peer-public-key" name="peer_public_key" class="input w-full" autocomplete="off" required>
+    <button class="btn btn-primary mt-5">Set peer public key</button>
+  </form>
+</div>
+<dialog id="delete_chat_modal" class="modal">
+  <div class="modal-box">
+    <h3 class="text-lg font-semibold mb-5">Delete chat</h3>
+    <p>Are you sure you want to delete chat {{ name }}?</p>
+    <div class="modal-action justify-between mt-8">
+      <form method="dialog">
+        <button class="btn">Cancel</button>
+      </form>
+      <form action="{{ url_for('delete_chat', name=name) }}" method="post">
+        <button class="btn btn-error">Delete chat</button>
+      </form>
+    </div>
+  </div>
+  <form method="dialog" class="modal-backdrop"><button></button></form>
+</dialog>
+{% endblock %}

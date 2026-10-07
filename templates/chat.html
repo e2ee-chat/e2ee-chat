@@ -1,0 +1,139 @@
+{% extends 'base.html' %}
+{% block main %}
+<div class="max-w-3xl mx-auto">
+  <div class="bg-base-100/90 backdrop-blur-sm sticky top-0 z-1">
+    <div class="flex justify-between items-center gap-1.5 py-1.5 px-2">
+      <div class="flex items-center gap-1.5 font-semibold">
+        <a href="{{ url_for('home') }}" class="btn btn-ghost btn-circle">
+          <span class="icon icon-arrow-back"></span>
+        </a>
+        <a href="{{ url_for('chat', name=name) }}" class="link link-hover">{{ name }}</a>
+      </div>
+      <div class="flex items-center gap-1.5">
+        <button class="btn" onclick="encrypt_decrypt_modal.showModal()">Encrypt / Decrypt</button>
+        <div class="dropdown dropdown-end">
+          <div tabindex="0" role="button" class="btn btn-ghost btn-circle">
+            <span class="icon icon-more"></span>
+          </div>
+          <ul tabindex="-1" class="dropdown-content menu bg-base-100 rounded-box border border-base-300
+            z-1 w-52 mt-1.5 shadow-md"
+          >
+            <li><button onclick="chat_info_modal.showModal()">Chat info</button></li>
+            <li><button onclick="delete_chat_modal.showModal()">Delete chat</button></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="px-2 pt-2 pb-24">
+    {% for msg in messages %}
+    <div class="chat {% if msg.is_my_message %}chat-end{% else %}chat-start{% endif %}
+      {% if not msg.decrypted %} break-all{% endif %}"
+    >
+      <div class="chat-bubble{% if msg.is_my_message %} bg-primary/23{% endif %}">
+        {{ msg.text }}
+      </div>
+      <div class="chat-footer text-base-content/50{% if msg.decrypted %} hover:text-base-content/80{% endif %}">
+        {% if msg.decrypted %}
+        <div class="created-at tooltip {% if msg.is_my_message %}tooltip-left{% else %}tooltip-right{% endif %}">
+          {{ msg.created_at }}
+        </div>
+        {% else %}
+        {{ msg.created_at }}
+        {% endif %}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  <div class="fixed bottom-0 w-3xl max-w-full bg-base-100 border-t border-base-300 z-1">
+    <textarea id="message" class="textarea w-full py-3.5 text-base border-none outline-none
+      shadow-none min-h-0 max-h-52" placeholder="Message" rows="1"
+      spellcheck="false" autocorrect="off" autocapitalize="none" autocomplete="off"
+    ></textarea>
+  </div>
+</div>
+<dialog id="encrypt_decrypt_modal" class="modal"{% if encrypted %} open{% endif %}>
+  <div class="modal-box">
+    <form method="dialog">
+      <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+        <span class="icon icon-close"></span>
+      </button>
+    </form>
+    <h3 class="text-lg font-semibold mb-5">Encrypt / Decrypt</h3>
+    <form method="post" id="encrypt-decrypt-form">
+      <div class="text-sm mb-1">
+        <label for="operation">Operation for new message</label>
+      </div>
+      <select name="operation" id="operation" class="select w-full" disabled>
+        <option value="encrypt" selected>Encrypt</option>
+        <option value="decrypt">Decrypt</option>
+      </select>
+      <div class="text-sm mt-4 mb-1">
+        <label for="percent">Percentage of decrypted messages</label>
+      </div>
+      <select name="percent" id="percent" class="select w-full">
+        <option value="100"{% if percent == 100 %} selected{% endif %}>100%</option>
+        <option value="75"{% if percent == 75 %} selected{% endif %}>75%</option>
+        <option value="50"{% if percent == 50 %} selected{% endif %}>50%</option>
+        <option value="25"{% if percent == 25 %} selected{% endif %}>25%</option>
+      </select>
+      <div class="text-sm mt-4 mb-1">
+        <label for="private-key">Private key</label>
+      </div>
+      <input type="password" id="private-key" name="private_key" class="input w-full" required
+        spellcheck="false" autocorrect="off" autocapitalize="none" autocomplete="off"
+      >
+      <input type="hidden" id="message-for-form" name="message">
+      <button class="btn btn-primary mt-5">Submit</button>
+    </form>
+    {% if encrypted %}
+    <div class="text-sm mt-4 mb-1">
+      <label for="encrypted">Encrypted message</label>
+    </div>
+    <textarea id="encrypted" class="textarea w-full break-all" readonly>{{ encrypted }}</textarea>
+    <button data-copy-target="encrypted" class="btn mt-1.5 disabled:text-base-content/80">
+      Copy encrypted message
+    </button>
+    {% elif decrypted %}
+    <div class="text-sm mt-4 mb-1">
+      <label for="decrypted">Decrypted message</label>
+    </div>
+    <textarea id="decrypted" class="textarea w-full" readonly>{{ decrypted }}</textarea>
+    {% endif %}
+  </div>
+  <form method="dialog" class="modal-backdrop"><button></button></form>
+</dialog>
+<dialog id="chat_info_modal" class="modal">
+  <div class="modal-box">
+    <form method="dialog">
+      <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+        <span class="icon icon-close"></span>
+      </button>
+    </form>
+    <h3 class="text-lg font-semibold mb-5">Chat info</h3>
+    <p class="text-sm break-all">
+      Name: {{ name }}<br>
+      Messages: {{ messages|length }}<br>
+      File path: \e2ee-chat\storage\{{ name }}.json<br>
+      Public key: {{ public_key }}<br>
+      Peer public key: {{ peer_public_key }}
+    </p>
+  </div>
+  <form method="dialog" class="modal-backdrop"><button></button></form>
+</dialog>
+<dialog id="delete_chat_modal" class="modal">
+  <div class="modal-box">
+    <h3 class="text-lg font-semibold mb-5">Delete chat</h3>
+    <p>Are you sure you want to delete chat {{ name }}?</p>
+    <div class="modal-action justify-between mt-8">
+      <form method="dialog">
+        <button class="btn">Cancel</button>
+      </form>
+      <form action="{{ url_for('delete_chat', name=name) }}" method="post">
+        <button class="btn btn-error">Delete chat</button>
+      </form>      
+    </div>
+  </div>
+  <form method="dialog" class="modal-backdrop"><button></button></form>
+</dialog>
+{% endblock %}

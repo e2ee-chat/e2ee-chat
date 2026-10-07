@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block main %}
+<div class="max-w-3xl mx-auto px-2 py-1">
+  <div class="text-lg font-semibold">E2EE Chat</div>
+</div>
+<div class="max-w-sm mx-auto px-2 mb-8">
+  <div class="flex justify-center mb-4">
+    <a href="{{ url_for('create_chat') }}" class="btn btn-lg">Create chat</a>
+  </div>
+  {% for name, number in chats %}
+  <a href="{{ url_for('chat', name=name) }}"
+    class="card border border-base-300 bg-base-100 hover:bg-base-200 transition duration-200 ease-out
+      shadow-xs hover:shadow-md focus-visible:outline-solid focus-visible:outline-2 mb-2 overflow-hidden"
+  >
+    <div class="card-body">
+      <h2 class="card-title">{{ name }}</h2>
+      <p class="text-sm text-base-content/50">
+        {{ number }} {% if number == 1 %}message{% else %}messages{% endif %}
+      </p>
+    </div>
+  </a>
+  {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block main %}
+<div class="max-w-lg mx-auto px-2 mt-2 mb-8">
+  <div class="flex items-center gap-1.5 font-semibold mb-5">
+    <a href="{{ url_for('home') }}" class="btn btn-ghost btn-circle">
+      <span class="icon icon-arrow-back"></span>
+    </a>
+    Create chat
+  </div>
+  <form method="post" class="border border-base-300 p-5 rounded-box">
+    <p class="text-sm text-base-content/50">
+      Save the chat name and private key in your password manager.
+      The private key is available only on this page.
+    </p>
+    <div class="text-sm mt-4 mb-1">
+      <label for="chat-name">Chat name</label>
+    </div>
+    <input type="text" id="chat-name" name="chat_name" value="{{ name }}" class="input w-full" readonly>
+    <button type="button" data-copy-target="chat-name" class="btn mt-1.5 disabled:text-base-content/80">
+      Copy chat name
+    </button>
+    <div class="text-sm mt-4 mb-1">
+      <label for="private-key">Private key</label>
+    </div>
+    <input type="password" id="private-key" value="{{ private_key }}" class="input w-full" readonly
+      spellcheck="false" autocorrect="off" autocapitalize="none" autocomplete="off"
+    >
+    <button type="button" data-copy-target="private-key" class="btn mt-1.5 disabled:text-base-content/80">
+      Copy private key
+    </button>
+    <div class="text-sm mt-4 mb-1">
+      <label for="public-key">Public key</label>
+    </div>
+    <input type="text" id="public-key" name="public_key" value="{{ public_key }}" class="input w-full" readonly>
+    <button class="btn btn-primary mt-5">Create chat</button>
+  </form>
+</div>
+{% endblock %}
