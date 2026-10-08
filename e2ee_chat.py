@@ -20,8 +20,6 @@ from flask import (
     abort,
 )
 
-base_dir = os.path.dirname(os.path.abspath(__file__))
-
 
 def generate_exchange_keys() -> tuple[str, str]:
     private_key = X25519PrivateKey.generate()
@@ -88,20 +86,20 @@ def get_utc_now() -> str:
 
 
 def create_storage_folder() -> None:
-    os.makedirs(os.path.join(base_dir, 'storage'), exist_ok=True)
+    os.makedirs(os.path.join(app.root_path, 'storage'), exist_ok=True)
 
 
 def generate_chat_name() -> str:
     create_storage_folder()
     while True:
         name = os.urandom(5).hex()
-        path = os.path.join(base_dir, 'storage', f'{name}.json')
+        path = os.path.join(app.root_path, 'storage', f'{name}.json')
         if not os.path.exists(path):
             return name
 
 
 def get_chat(name: str) -> dict | None:
-    path = os.path.join(base_dir, 'storage', f'{name}.json')
+    path = os.path.join(app.root_path, 'storage', f'{name}.json')
     if not os.path.isfile(path):
         return None
     with open(path, 'r', encoding='utf-8') as file:
@@ -109,7 +107,7 @@ def get_chat(name: str) -> dict | None:
 
 
 def save_chat(name: str, data: dict) -> None:
-    path = os.path.join(base_dir, 'storage', f'{name}.json')
+    path = os.path.join(app.root_path, 'storage', f'{name}.json')
     with open(path, 'w', encoding='utf-8') as file:
         json.dump(data, file, indent=2)
 
@@ -120,7 +118,7 @@ app = Flask(__name__)
 @app.route('/')
 def home():
     create_storage_folder()
-    chat_files = os.listdir(os.path.join(base_dir, 'storage'))
+    chat_files = os.listdir(os.path.join(app.root_path, 'storage'))
     chats = []
     for file in chat_files:
         if file.endswith('.json'):
@@ -251,11 +249,20 @@ def chat(name):
 
 @app.post('/chat/<name>/delete_chat')
 def delete_chat(name):
-    path = os.path.join(base_dir, 'storage', f'{name}.json')
+    path = os.path.join(app.root_path, 'storage', f'{name}.json')
     if not os.path.isfile(path):
         return redirect(url_for('chat', name=name))
     os.remove(path)
     return redirect(url_for('home'))
+
+
+@app.route('/storage/<name>.json')
+def chat_file(name):
+    return send_from_directory(
+        os.path.join(app.root_path, 'storage'),
+        f'{name}.json',
+        mimetype='application/json',
+    )
 
 
 @app.route('/favicon.ico')

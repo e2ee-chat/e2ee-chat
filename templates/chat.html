@@ -84,7 +84,7 @@
         spellcheck="false" autocorrect="off" autocapitalize="none" autocomplete="off"
       >
       <input type="hidden" id="message-for-form" name="message">
-      <button class="btn btn-primary mt-5">Submit</button>
+      <button type="submit" class="btn btn-primary mt-5">Submit</button>
     </form>
     {% if encrypted %}
     <div class="text-sm mt-4 mb-1">
@@ -112,11 +112,12 @@
     </form>
     <h3 class="text-lg font-semibold mb-5">Chat info</h3>
     <p class="text-sm break-all">
-      Name: {{ name }}<br>
-      Messages: {{ messages|length }}<br>
-      File path: \e2ee-chat\storage\{{ name }}.json<br>
+      Chat name: {{ name }}<br>
       Public key: {{ public_key }}<br>
-      Peer public key: {{ peer_public_key }}
+      Peer public key: {{ peer_public_key }}<br>
+      Messages: {{ messages|length }}<br>
+      Chat file: <a href="{{ url_for('chat_file', name=name) }}" target="_blank"
+        class="link hover:text-primary">storage/{{ name }}.json</a>
     </p>
   </div>
   <form method="dialog" class="modal-backdrop"><button></button></form>

@@ -2443,10 +2443,27 @@
       background-color: color-mix(in oklab, var(--color-base-100) 90%, transparent);
     }
   }
+  .bg-base-content\/70\! {
+    background-color: var(--color-base-content) !important;
+    @supports (color: color-mix(in lab, red, red)) {
+      background-color: color-mix(in oklab, var(--color-base-content) 70%, transparent) !important;
+    }
+  }
   .bg-primary\/23 {
     background-color: var(--color-primary);
     @supports (color: color-mix(in lab, red, red)) {
       background-color: color-mix(in oklab, var(--color-primary) 23%, transparent);
+    }
+  }
+  @layer daisyui {
+    .btn-link {
+      text-decoration-line: underline;
+      --btn-bg: #0000;
+      color: var(--btn-color, var(--color-primary));
+      --btn-border: #0000;
+      background-image: none;
+      --btn-inset: 0 0 0 0 oklch(0% 0 0/0);
+      --btn-shadow: 0 0 0 0 oklch(0% 0 0/0);
     }
   }
   @layer daisyui.l1.l2.l3 {
@@ -2583,6 +2600,9 @@
     }
   }
   @media (hover: hover) {
+    .group-hover\:bg-base-content\!:is(:where(.group):hover *) {
+      background-color: var(--color-base-content) !important;
+    }
     .hover\:bg-base-200:hover {
       background-color: var(--color-base-200);
     }
@@ -2593,6 +2613,9 @@
       .hover\:text-base-content\/80:hover {
         color: color-mix(in oklab, var(--color-base-content) 80%, transparent);
       }
+    }
+    .hover\:text-primary:hover {
+      color: var(--color-primary);
     }
     .hover\:shadow-md:hover {
       --tw-shadow: 0 4px 6px -1px var(--tw-shadow-color, rgb(0 0 0 / 0.1)), 0 2px 4px -2px var(--tw-shadow-color, rgb(0 0 0 / 0.1));
@@ -2636,6 +2659,10 @@
 .icon-close {
   mask-image: url("../img/close.svg");
   -webkit-mask-image: url("../img/close.svg");
+}
+.icon-github {
+  mask-image: url("../img/github.svg");
+  -webkit-mask-image: url("../img/github.svg");
 }
 @layer base {
   :where(:root),:root:has(input.theme-controller[value=light]:checked),[data-theme=light] {
@@ -2908,11 +2935,11 @@
     --color-base-200: oklch(92% 0.004 286.32);
     --color-base-300: oklch(90% 0.004 286.32);
     --color-base-content: oklch(0% 0 0);
-    --color-primary: oklch(54% 0.245 262.881);
+    --color-primary: oklch(57% 0.214 259.815);
     --color-primary-content: oklch(100% 0 0);
-    --color-secondary: oklch(60% 0.118 184.704);
+    --color-secondary: oklch(55% 0.118 184.704);
     --color-secondary-content: oklch(100% 0 0);
-    --color-accent: oklch(54% 0.281 293.009);
+    --color-accent: oklch(59% 0.281 293.009);
     --color-accent-content: oklch(100% 0 0);
     --color-neutral: oklch(44% 0.017 285.786);
     --color-neutral-content: oklch(100% 0 0);
@@ -2940,14 +2967,14 @@
       --color-base-200: oklch(27% 0.006 286.033);
       --color-base-300: oklch(29% 0.006 286.033);
       --color-base-content: oklch(100% 0 0);
-      --color-primary: oklch(54% 0.245 262.881);
+      --color-primary: oklch(57% 0.214 259.815);
       --color-primary-content: oklch(100% 0 0);
-      --color-secondary: oklch(60% 0.118 184.704);
+      --color-secondary: oklch(55% 0.118 184.704);
       --color-secondary-content: oklch(100% 0 0);
-      --color-accent: oklch(54% 0.281 293.009);
+      --color-accent: oklch(59% 0.281 293.009);
       --color-accent-content: oklch(100% 0 0);
       --color-neutral: oklch(14% 0.005 285.823);
-      --color-neutral-content: oklch(98% 0 0);
+      --color-neutral-content: oklch(96% 0.001 286.375);
       --color-info: oklch(78% 0.154 211.53);
       --color-info-content: oklch(30% 0.056 229.695);
       --color-success: oklch(79% 0.209 151.711);
@@ -2972,14 +2999,14 @@
     --color-base-200: oklch(27% 0.006 286.033);
     --color-base-300: oklch(29% 0.006 286.033);
     --color-base-content: oklch(100% 0 0);
-    --color-primary: oklch(54% 0.245 262.881);
+    --color-primary: oklch(57% 0.214 259.815);
     --color-primary-content: oklch(100% 0 0);
-    --color-secondary: oklch(60% 0.118 184.704);
+    --color-secondary: oklch(55% 0.118 184.704);
     --color-secondary-content: oklch(100% 0 0);
-    --color-accent: oklch(54% 0.281 293.009);
+    --color-accent: oklch(59% 0.281 293.009);
     --color-accent-content: oklch(100% 0 0);
     --color-neutral: oklch(14% 0.005 285.823);
-    --color-neutral-content: oklch(98% 0 0);
+    --color-neutral-content: oklch(96% 0.001 286.375);
     --color-info: oklch(78% 0.154 211.53);
     --color-info-content: oklch(30% 0.056 229.695);
     --color-success: oklch(79% 0.209 151.711);

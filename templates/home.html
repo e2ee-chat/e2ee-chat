@@ -1,9 +1,16 @@
 {% extends 'base.html' %}
 {% block main %}
 <div class="max-w-3xl mx-auto px-2 py-1">
-  <div class="text-lg font-semibold">E2EE Chat</div>
+  <div class="flex justify-between items-center">
+    <div class="text-lg font-semibold">E2EE Chat</div>
+    <a href="https://github.com/e2ee-chat/e2ee-chat" target="_blank"
+      class="btn btn-sm btn-circle btn-link group" title="GitHub"
+    >
+      <span class="icon icon-github bg-base-content/70! group-hover:bg-base-content!"></span>
+    </a>
+  </div>
 </div>
-<div class="max-w-sm mx-auto px-2 mb-8">
+<div class="max-w-sm mx-auto px-2 mt-2 mb-8">
   <div class="flex justify-center mb-4">
     <a href="{{ url_for('create_chat') }}" class="btn btn-lg">Create chat</a>
   </div>
