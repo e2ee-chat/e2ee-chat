@@ -14,9 +14,7 @@ function copyToClipboard(button) {
         button.disabled = false;
       }, 1500);
     })
-    .catch((error) => {
-      console.error('Failed to copy:', error);
-    });
+    .catch((error) => console.error(error));
 }
 
 document.querySelectorAll('button[data-copy-target]').forEach((button) => {
@@ -66,5 +64,14 @@ if (encryptDecryptForm && messageField && messageForFormField) {
     if (messageField.value.trim()) {
       messageForFormField.value = messageField.value.trim();
     }
+    navigator.clipboard.writeText('')
+      .catch((error) => console.error(error));
   });
 }
+
+document.querySelectorAll('form[data-clear-clipboard]').forEach((form) => {
+  form.addEventListener('submit', () => {
+    navigator.clipboard.writeText('')
+      .catch((error) => console.error(error));
+  });
+});

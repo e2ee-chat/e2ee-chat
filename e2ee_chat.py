@@ -45,7 +45,7 @@ def derive_key(
             algorithm=hashes.SHA256(),
             length=32,
             salt=None,
-            info=b'X25519-HKDF',
+            info=b'E2EE Chat | X25519 | AES-256',
         )
         derived_key = hkdf.derive(shared_key)
         return derived_key
@@ -62,21 +62,39 @@ def encrypt_text(plaintext: str, key: bytes) -> str:
     ciphertext = encryptor.update(padded_data) + encryptor.finalize()
     iv_b64 = base64.b64encode(iv).decode()
     ciphertext_b64 = base64.b64encode(ciphertext).decode()
-    output = '|'.join((iv_b64, ciphertext_b64))
-    return output
+    encrypted_text = '|'.join((iv_b64, ciphertext_b64))
+    return encrypted_text
 
 
-def decrypt_text(output: str, key: bytes) -> str:
-    iv_b64 = output.split('|')[0]
-    ciphertext_b64 = output.split('|')[1]
-    iv = base64.b64decode(iv_b64)
-    ciphertext = base64.b64decode(ciphertext_b64)
-    cipher = Cipher(algorithms.AES256(key), modes.CBC(iv))
-    decryptor = cipher.decryptor()
-    padded_data = decryptor.update(ciphertext) + decryptor.finalize()
-    unpadder = padding.PKCS7(algorithms.AES256.block_size).unpadder()
-    plaintext = unpadder.update(padded_data) + unpadder.finalize()
-    return plaintext.decode()
+def decrypt_text(encrypted_text: str, key: bytes) -> str | None:
+    try:
+        iv_b64 = encrypted_text.split('|')[0]
+        ciphertext_b64 = encrypted_text.split('|')[1]
+        iv = base64.b64decode(iv_b64)
+        ciphertext = base64.b64decode(ciphertext_b64)
+        cipher = Cipher(algorithms.AES256(key), modes.CBC(iv))
+        decryptor = cipher.decryptor()
+        padded_data = decryptor.update(ciphertext) + decryptor.finalize()
+        unpadder = padding.PKCS7(algorithms.AES256.block_size).unpadder()
+        plaintext = unpadder.update(padded_data) + unpadder.finalize()
+        return plaintext.decode()
+    except (ValueError, IndexError):
+        return None
+
+
+def get_verification_hash(
+    public_key_b64: str,
+    peer_public_key_b64: str,
+) -> str:
+    public_key = base64.b64decode(public_key_b64)
+    peer_public_key = base64.b64decode(peer_public_key_b64)
+    first, second = sorted((public_key, peer_public_key))
+    digest = hashes.Hash(hashes.SHA256())
+    digest.update(first)
+    digest.update(second)
+    hash = digest.finalize()
+    hash_b64 = base64.b64encode(hash).decode()
+    return hash_b64
 
 
 def get_utc_now() -> str:
@@ -179,20 +197,17 @@ def chat(name):
         abort(404)
     if data['peer_public_key'] == '':
         return redirect(url_for('set_peer_public_key', name=name))
+    hash = get_verification_hash(data['public_key'], data['peer_public_key'])
     context = {
         'name': name,
-        'public_key': data['public_key'],
-        'peer_public_key': data['peer_public_key'],
+        'hash': hash,
     }
     if request.method == 'POST':
-        percent = int(request.form['percent'])
         private_key_b64 = request.form['private_key'].strip()
         peer_public_key_b64 = data['peer_public_key']
         derived_key = derive_key(private_key_b64, peer_public_key_b64)
         if derived_key is None:
-            context['messages'] = data['messages']
-            context['percent'] = percent
-            return render_template('chat.html', **context)
+            return redirect(url_for('chat', name=name))
         new_message = request.form['message'].strip()
         if new_message:
             operation = request.form['operation']
@@ -211,8 +226,8 @@ def chat(name):
                 save_chat(name, data)
                 context['encrypted'] = e_new_message
             elif operation == 'decrypt':
-                try:
-                    d_new_message = decrypt_text(new_message, derived_key)
+                d_new_message = decrypt_text(new_message, derived_key)
+                if d_new_message:
                     created_at = get_utc_now()
                     e_created_at = encrypt_text(created_at, derived_key)
                     messages.append({
@@ -223,22 +238,19 @@ def chat(name):
                     data['messages'] = messages
                     save_chat(name, data)
                     context['decrypted'] = d_new_message
-                except (ValueError, IndexError):
-                    pass
         data = get_chat(name)
+        percent = int(request.form['percent'])
         number_to_decrypt = len(data['messages']) * percent // 100
         number_encrypted = len(data['messages']) - number_to_decrypt
         messages = []
         messages.extend(data['messages'][:number_encrypted])
         for msg in data['messages'][number_encrypted:]:
-            try:
-                d_message = decrypt_text(msg['text'], derived_key)
-                d_created_at = decrypt_text(msg['created_at'], derived_key)
+            d_message = decrypt_text(msg['text'], derived_key)
+            d_created_at = decrypt_text(msg['created_at'], derived_key)
+            if d_message and d_created_at:
                 msg['text'] = d_message
                 msg['created_at'] = d_created_at
                 msg['decrypted'] = True
-            except (ValueError, IndexError):
-                pass
             messages.append(msg)
         context['messages'] = messages
         context['percent'] = percent

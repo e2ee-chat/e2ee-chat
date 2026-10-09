@@ -2467,6 +2467,37 @@
     }
   }
   @layer daisyui.l1.l2.l3 {
+    .btn-soft {
+      --btn-bg: var(--btn-color, var(--color-base-content));
+    }
+    @supports (color: color-mix(in lab, red, red)) {
+      .btn-soft {
+        --btn-bg: color-mix(
+      in oklab,
+      var(--btn-color, var(--color-base-content)) 8%,
+      var(--btn-soft-bg, var(--color-base-100))
+    );
+      }
+    }
+    .btn-soft {
+      color: var(--btn-rest-fg, var(--btn-color, var(--color-base-content)));
+      --btn-border: var(--btn-color, var(--color-base-content));
+    }
+    @supports (color: color-mix(in lab, red, red)) {
+      .btn-soft {
+        --btn-border: color-mix(
+      in oklab,
+      var(--btn-color, var(--color-base-content)) 10%,
+      var(--btn-soft-bg, var(--color-base-100))
+    );
+      }
+    }
+    .btn-soft {
+      --btn-border-style: solid;
+      background-image: none;
+      --btn-inset: 0 0 0 0 oklch(0% 0 0/0);
+      --btn-shadow: 0 0 0 0 oklch(0% 0 0/0);
+    }
     .btn-ghost {
       --btn-bg: #0000;
       color: var(--btn-rest-fg, var(--btn-color, var(--color-base-content, currentColor)));
@@ -2520,6 +2551,12 @@
     color: var(--color-base-content);
     @supports (color: color-mix(in lab, red, red)) {
       color: color-mix(in oklab, var(--color-base-content) 50%, transparent);
+    }
+  }
+  .text-base-content\/60 {
+    color: var(--color-base-content);
+    @supports (color: color-mix(in lab, red, red)) {
+      color: color-mix(in oklab, var(--color-base-content) 60%, transparent);
     }
   }
   @layer daisyui.l1.l2 {
@@ -2583,6 +2620,11 @@
       --btn-p: 0.75rem;
       --size: calc(var(--size-field, 0.25rem) * 8);
     }
+    .btn-success {
+      --btn-color: var(--color-success);
+      --btn-fg: var(--color-success-content);
+      --btn-soft-bg: initial;
+    }
   }
   .outline-none {
     --tw-outline-style: none;
@@ -2613,9 +2655,6 @@
       .hover\:text-base-content\/80:hover {
         color: color-mix(in oklab, var(--color-base-content) 80%, transparent);
       }
-    }
-    .hover\:text-primary:hover {
-      color: var(--color-primary);
     }
     .hover\:shadow-md:hover {
       --tw-shadow: 0 4px 6px -1px var(--tw-shadow-color, rgb(0 0 0 / 0.1)), 0 2px 4px -2px var(--tw-shadow-color, rgb(0 0 0 / 0.1));

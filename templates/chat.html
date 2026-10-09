@@ -18,7 +18,8 @@
           <ul tabindex="-1" class="dropdown-content menu bg-base-100 rounded-box border border-base-300
             z-1 w-52 mt-1.5 shadow-md"
           >
-            <li><button onclick="chat_info_modal.showModal()">Chat info</button></li>
+            <li><a href="{{ url_for('chat_file', name=name) }}" target="_blank">Chat file</a></li>
+            <li><button onclick="verify_modal.showModal()">Verify public keys</button></li>
             <li><button onclick="delete_chat_modal.showModal()">Delete chat</button></li>
           </ul>
         </div>
@@ -103,24 +104,31 @@
   </div>
   <form method="dialog" class="modal-backdrop"><button></button></form>
 </dialog>
-<dialog id="chat_info_modal" class="modal">
+<dialog id="verify_modal" class="modal"{% if not messages %} open{% endif %}>
   <div class="modal-box">
     <form method="dialog">
       <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
         <span class="icon icon-close"></span>
       </button>
     </form>
-    <h3 class="text-lg font-semibold mb-5">Chat info</h3>
-    <p class="text-sm break-all">
-      Chat name: {{ name }}<br>
-      Public key: {{ public_key }}<br>
-      Peer public key: {{ peer_public_key }}<br>
-      Messages: {{ messages|length }}<br>
-      Chat file: <a href="{{ url_for('chat_file', name=name) }}" target="_blank"
-        class="link hover:text-primary">storage/{{ name }}.json</a>
+    <h3 class="text-lg font-semibold mb-5">Verify public keys</h3>
+    <p class="text-sm text-base-content/60">
+      Before exchanging messages, compare the hashes of the public keys over a separate
+      communication channel to verify that they match and that the keys have not been tampered with.
     </p>
+    <div class="text-sm mt-4 mb-1">
+      <label for="hash">Verification hash</label>
+    </div>
+    <input type="text" id="hash" value="{{ hash }}" class="input w-full" readonly>
+    <button data-copy-target="hash" class="btn mt-1.5 disabled:text-base-content/80">
+      Copy verification hash
+    </button>
+    <div class="modal-action">
+      <form method="dialog">
+        <button class="btn btn-success btn-soft">Verification hash matches</button>
+      </form>
+    </div>
   </div>
-  <form method="dialog" class="modal-backdrop"><button></button></form>
 </dialog>
 <dialog id="delete_chat_modal" class="modal">
   <div class="modal-box">
