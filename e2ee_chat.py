@@ -3,12 +3,12 @@ import json
 import os
 from datetime import datetime, timezone
 
-from cryptography.hazmat.primitives import hashes, padding
+from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.asymmetric.x25519 import (
     X25519PrivateKey,
     X25519PublicKey,
 )
-from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
+from cryptography.hazmat.primitives.ciphers.aead import AESGCM
 from cryptography.hazmat.primitives.kdf.hkdf import HKDF
 from flask import (
     Flask,
@@ -45,7 +45,7 @@ def derive_key(
             algorithm=hashes.SHA256(),
             length=32,
             salt=None,
-            info=b'E2EE Chat | X25519 | AES-256',
+            info=b'E2EE Chat | X25519 | AES-256-GCM',
         )
         derived_key = hkdf.derive(shared_key)
         return derived_key
@@ -54,31 +54,25 @@ def derive_key(
 
 
 def encrypt_text(plaintext: str, key: bytes) -> str:
-    iv = os.urandom(16)
-    cipher = Cipher(algorithms.AES256(key), modes.CBC(iv))
-    encryptor = cipher.encryptor()
-    padder = padding.PKCS7(algorithms.AES256.block_size).padder()
-    padded_data = padder.update(plaintext.encode()) + padder.finalize()
-    ciphertext = encryptor.update(padded_data) + encryptor.finalize()
-    iv_b64 = base64.b64encode(iv).decode()
+    aesgcm = AESGCM(key)
+    nonce = os.urandom(12)
+    ciphertext = aesgcm.encrypt(nonce, plaintext.encode(), None)
+    nonce_b64 = base64.b64encode(nonce).decode()
     ciphertext_b64 = base64.b64encode(ciphertext).decode()
-    encrypted_text = '|'.join((iv_b64, ciphertext_b64))
+    encrypted_text = '|'.join((nonce_b64, ciphertext_b64))
     return encrypted_text
 
 
 def decrypt_text(encrypted_text: str, key: bytes) -> str | None:
     try:
-        iv_b64 = encrypted_text.split('|')[0]
+        nonce_b64 = encrypted_text.split('|')[0]
         ciphertext_b64 = encrypted_text.split('|')[1]
-        iv = base64.b64decode(iv_b64)
+        nonce = base64.b64decode(nonce_b64)
         ciphertext = base64.b64decode(ciphertext_b64)
-        cipher = Cipher(algorithms.AES256(key), modes.CBC(iv))
-        decryptor = cipher.decryptor()
-        padded_data = decryptor.update(ciphertext) + decryptor.finalize()
-        unpadder = padding.PKCS7(algorithms.AES256.block_size).unpadder()
-        plaintext = unpadder.update(padded_data) + unpadder.finalize()
+        aesgcm = AESGCM(key)
+        plaintext = aesgcm.decrypt(nonce, ciphertext, None)
         return plaintext.decode()
-    except (ValueError, IndexError):
+    except (ValueError, TypeError, IndexError):
         return None
 
 

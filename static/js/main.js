@@ -30,11 +30,11 @@ if (messageField) {
   window.scrollTo(0, document.body.scrollHeight);
   document.querySelectorAll('.created-at').forEach((element) => {
     const date = new Date(element.textContent.trim());
-    const shortTime = date.toLocaleTimeString([], {
+    const formattedTime = date.toLocaleTimeString([], {
       hour: '2-digit',
       minute: '2-digit',
     });
-    element.textContent = shortTime;
+    element.textContent = formattedTime;
     element.setAttribute('data-tip', date.toLocaleString());
   });
   messageField.addEventListener('input', () => {
@@ -45,7 +45,7 @@ if (messageField) {
     }
     if (messageField.value.trim() !== '') {
       operationField.disabled = false;
-      if (messageField.value.includes('==|')) {
+      if (messageField.value.includes('|')) {
         operationField.value = 'decrypt';
       } else {
         operationField.value = 'encrypt';
