@@ -31,7 +31,7 @@
     <div class="chat {% if msg.is_my_message %}chat-end{% else %}chat-start{% endif %}
       {% if not msg.decrypted %} break-all{% endif %}"
     >
-      <div class="chat-bubble{% if msg.is_my_message %} bg-primary/23{% endif %}">
+      <div class="chat-bubble{% if msg.is_my_message %} bg-primary/20{% endif %}">
         {{ msg.text }}
       </div>
       <div class="chat-footer text-base-content/50{% if msg.decrypted %} hover:text-base-content/80{% endif %}">
@@ -48,7 +48,7 @@
   </div>
   <div class="fixed bottom-0 w-3xl max-w-full bg-base-100 border-t border-base-300 z-1">
     <textarea id="message" class="textarea w-full py-3.5 text-base border-none outline-none
-      shadow-none min-h-0 max-h-52" placeholder="Message" rows="1"
+      shadow-none min-h-13 max-h-52" placeholder="Message" rows="1"
       spellcheck="false" autocorrect="off" autocapitalize="none" autocomplete="off"
     ></textarea>
   </div>

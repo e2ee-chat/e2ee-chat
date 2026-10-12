@@ -2353,8 +2353,8 @@
   .max-h-52 {
     max-height: calc(var(--spacing) * 52);
   }
-  .min-h-0 {
-    min-height: 0px;
+  .min-h-13 {
+    min-height: calc(var(--spacing) * 13);
   }
   .w-3xl {
     width: var(--container-3xl);
@@ -2449,10 +2449,10 @@
       background-color: color-mix(in oklab, var(--color-base-content) 70%, transparent) !important;
     }
   }
-  .bg-primary\/23 {
+  .bg-primary\/20 {
     background-color: var(--color-primary);
     @supports (color: color-mix(in lab, red, red)) {
-      background-color: color-mix(in oklab, var(--color-primary) 23%, transparent);
+      background-color: color-mix(in oklab, var(--color-primary) 20%, transparent);
     }
   }
   @layer daisyui {

@@ -1,6 +1,6 @@
 # E2EE Chat
 
-End-to-end encrypted chat app for desktop.
+End-to-end encrypted messaging tool for desktop.
 
 ## Install and run
 

@@ -43,9 +43,11 @@ if (messageField) {
     if (!operationField) {
       return;
     }
-    if (messageField.value.trim() !== '') {
+    const message = messageField.value.trim();
+    if (message) {
       operationField.disabled = false;
-      if (messageField.value.includes('|')) {
+      const parts = message.split('|');
+      if (parts.length === 2 && parts[0].length === 16) {
         operationField.value = 'decrypt';
       } else {
         operationField.value = 'encrypt';
@@ -61,8 +63,9 @@ const messageForFormField = document.getElementById('message-for-form');
 
 if (encryptDecryptForm && messageField && messageForFormField) {
   encryptDecryptForm.addEventListener('submit', () => {
-    if (messageField.value.trim()) {
-      messageForFormField.value = messageField.value.trim();
+    const message = messageField.value.trim();
+    if (message) {
+      messageForFormField.value = message;
     }
     navigator.clipboard.writeText('')
       .catch((error) => console.error(error));
