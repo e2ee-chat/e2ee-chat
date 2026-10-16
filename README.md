@@ -22,6 +22,6 @@ Open 127.0.0.1:5000
 
 ## Algorithm
 
-1. X25519
+1. X448
 2. HKDF
 3. AES-256-GCM

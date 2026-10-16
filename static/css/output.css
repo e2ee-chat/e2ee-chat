@@ -2285,9 +2285,6 @@
   .mt-8 {
     margin-top: calc(var(--spacing) * 8);
   }
-  .mb-1 {
-    margin-bottom: var(--spacing);
-  }
   .mb-2 {
     margin-bottom: calc(var(--spacing) * 2);
   }
@@ -2361,9 +2358,6 @@
   }
   .w-52 {
     width: calc(var(--spacing) * 52);
-  }
-  .w-full {
-    width: 100%;
   }
   .max-w-3xl {
     max-width: var(--container-3xl);
@@ -2669,11 +2663,20 @@
     --tw-outline-style: solid;
     outline-style: solid;
   }
-  .disabled\:text-base-content\/80:disabled {
-    color: var(--color-base-content);
-    @supports (color: color-mix(in lab, red, red)) {
-      color: color-mix(in oklab, var(--color-base-content) 80%, transparent);
-    }
+}
+.input, .textarea, .select {
+  width: 100%;
+}
+.form-label {
+  display: block;
+  padding-bottom: var(--spacing);
+  font-size: var(--text-sm);
+  line-height: var(--tw-leading, var(--text-sm--line-height));
+}
+.btn:disabled {
+  color: var(--color-base-content);
+  @supports (color: color-mix(in lab, red, red)) {
+    color: color-mix(in oklab, var(--color-base-content) 80%, transparent);
   }
 }
 .icon {

@@ -5,8 +5,7 @@
     <div class="flex items-center gap-1.5 font-semibold">
       <a href="{{ url_for('home') }}" class="btn btn-ghost btn-circle">
         <span class="icon icon-arrow-back"></span>
-      </a>
-      {{ name }}
+      </a>{{ name }}
     </div>
     <div class="dropdown dropdown-end">
       <div tabindex="0" role="button" class="btn btn-ghost btn-circle">
@@ -24,17 +23,13 @@
       Send your public key to the other party.
       Paste the public key received from the other party.
     </p>
-    <div class="text-sm mt-4 mb-1">
-      <label for="public-key">Public key</label>
-    </div>
-    <input type="text" id="public-key" value="{{ public_key }}" class="input w-full" readonly>
-    <button type="button" data-copy-target="public-key" class="btn mt-1.5 disabled:text-base-content/80">
+    <label for="public_key" class="form-label mt-4">Public key</label>
+    <textarea id="public_key" class="textarea" readonly>{{ public_key }}</textarea>
+    <button type="button" data-copy-target="public_key" class="btn mt-1.5">
       Copy public key
     </button>
-    <div class="text-sm mt-4 mb-1">
-      <label for="peer-public-key">Peer public key</label>
-    </div>
-    <input type="text" id="peer-public-key" name="peer_public_key" class="input w-full" autocomplete="off" required>
+    <label for="peer_public_key" class="form-label mt-4">Peer public key</label>
+    <textarea name="peer_public_key" id="peer_public_key" class="textarea" autocomplete="off" required></textarea>
     <button type="submit" class="btn btn-primary mt-5">Set peer public key</button>
   </form>
 </div>

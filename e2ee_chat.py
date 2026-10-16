@@ -4,9 +4,9 @@ import os
 from datetime import datetime, timezone
 
 from cryptography.hazmat.primitives import hashes
-from cryptography.hazmat.primitives.asymmetric.x25519 import (
-    X25519PrivateKey,
-    X25519PublicKey,
+from cryptography.hazmat.primitives.asymmetric.x448 import (
+    X448PrivateKey,
+    X448PublicKey,
 )
 from cryptography.hazmat.primitives.ciphers.aead import AESGCM
 from cryptography.hazmat.primitives.kdf.hkdf import HKDF
@@ -20,9 +20,13 @@ from flask import (
     abort,
 )
 
+app = Flask(__name__)
 
-def generate_exchange_keys() -> tuple[str, str]:
-    private_key = X25519PrivateKey.generate()
+CHATS_DIR = os.path.join(app.root_path, 'chats')
+
+
+def generate_keys() -> tuple[str, str]:
+    private_key = X448PrivateKey.generate()
     public_key = private_key.public_key()
     private_b = private_key.private_bytes_raw()
     public_b = public_key.public_bytes_raw()
@@ -38,14 +42,14 @@ def derive_key(
     try:
         private_b = base64.b64decode(private_key_b64)
         public_b = base64.b64decode(peer_public_key_b64)
-        private_key = X25519PrivateKey.from_private_bytes(private_b)
-        peer_public_key = X25519PublicKey.from_public_bytes(public_b)
+        private_key = X448PrivateKey.from_private_bytes(private_b)
+        peer_public_key = X448PublicKey.from_public_bytes(public_b)
         shared_key = private_key.exchange(peer_public_key)
         hkdf = HKDF(
             algorithm=hashes.SHA256(),
             length=32,
             salt=None,
-            info=b'E2EE Chat | X25519 | AES-256-GCM',
+            info=b'E2EE Chat | X448 | AES-256-GCM',
         )
         derived_key = hkdf.derive(shared_key)
         return derived_key
@@ -97,21 +101,21 @@ def get_utc_now() -> str:
     return utc_now_iso
 
 
-def create_storage_folder() -> None:
-    os.makedirs(os.path.join(app.root_path, 'storage'), exist_ok=True)
+def create_chats_folder() -> None:
+    os.makedirs(CHATS_DIR, exist_ok=True)
 
 
 def generate_chat_name() -> str:
-    create_storage_folder()
+    create_chats_folder()
     while True:
         name = os.urandom(5).hex()
-        path = os.path.join(app.root_path, 'storage', f'{name}.json')
+        path = os.path.join(CHATS_DIR, f'{name}.json')
         if not os.path.exists(path):
             return name
 
 
 def get_chat(name: str) -> dict | None:
-    path = os.path.join(app.root_path, 'storage', f'{name}.json')
+    path = os.path.join(CHATS_DIR, f'{name}.json')
     if not os.path.isfile(path):
         return None
     with open(path, 'r', encoding='utf-8') as file:
@@ -119,18 +123,15 @@ def get_chat(name: str) -> dict | None:
 
 
 def save_chat(name: str, data: dict) -> None:
-    path = os.path.join(app.root_path, 'storage', f'{name}.json')
+    path = os.path.join(CHATS_DIR, f'{name}.json')
     with open(path, 'w', encoding='utf-8') as file:
         json.dump(data, file, indent=2)
 
 
-app = Flask(__name__)
-
-
 @app.route('/')
 def home():
-    create_storage_folder()
-    chat_files = os.listdir(os.path.join(app.root_path, 'storage'))
+    create_chats_folder()
+    chat_files = os.listdir(CHATS_DIR)
     chats = []
     for file in chat_files:
         if file.endswith('.json'):
@@ -138,17 +139,15 @@ def home():
             data = get_chat(name)
             chats.append((name, len(data['messages'])))
     chats = sorted(chats, key=lambda x: x[1], reverse=True)
-    context = {'chats': chats}
-    return render_template('home.html', **context)
+    return render_template('home.html', chats=chats)
 
 
 @app.route('/create_chat', methods=['GET', 'POST'])
 def create_chat():
     if request.method == 'POST':
-        name = request.form['chat_name']
+        name = request.form['name']
         public_key = request.form['public_key']
         data = {
-            'chat_name': name,
             'public_key': public_key,
             'peer_public_key': '',
             'messages': [],
@@ -156,7 +155,7 @@ def create_chat():
         save_chat(name, data)
         return redirect(url_for('set_peer_public_key', name=name))
     name = generate_chat_name()
-    private_key, public_key = generate_exchange_keys()
+    private_key, public_key = generate_keys()
     context = {
         'name': name,
         'private_key': private_key,
@@ -173,7 +172,7 @@ def set_peer_public_key(name):
     if data['peer_public_key'] != '':
         return redirect(url_for('chat', name=name))
     if request.method == 'POST':
-        peer_public_key = request.form['peer_public_key']
+        peer_public_key = request.form['peer_public_key'].strip()
         data['peer_public_key'] = peer_public_key
         save_chat(name, data)
         return redirect(url_for('chat', name=name))
@@ -202,36 +201,32 @@ def chat(name):
         derived_key = derive_key(private_key_b64, peer_public_key_b64)
         if derived_key is None:
             return redirect(url_for('chat', name=name))
-        new_message = request.form['message'].strip()
-        if new_message:
+        message = request.form['message'].strip()
+        if message:
             operation = request.form['operation']
             messages = []
             messages.extend(data['messages'])
             if operation == 'encrypt':
-                e_new_message = encrypt_text(new_message, derived_key)
-                created_at = get_utc_now()
-                e_created_at = encrypt_text(created_at, derived_key)
+                e_message = encrypt_text(message, derived_key)
                 messages.append({
-                    'text': e_new_message,
-                    'created_at': e_created_at,
+                    'text': e_message,
+                    'created_at': get_utc_now(),
                     'is_my_message': True,
                 })
                 data['messages'] = messages
                 save_chat(name, data)
-                context['encrypted'] = e_new_message
+                context['encrypted'] = e_message
             elif operation == 'decrypt':
-                d_new_message = decrypt_text(new_message, derived_key)
-                if d_new_message:
-                    created_at = get_utc_now()
-                    e_created_at = encrypt_text(created_at, derived_key)
+                d_message = decrypt_text(message, derived_key)
+                if d_message:
                     messages.append({
-                        'text': new_message,
-                        'created_at': e_created_at,
+                        'text': message,
+                        'created_at': get_utc_now(),
                         'is_my_message': False,
                     })
                     data['messages'] = messages
                     save_chat(name, data)
-                    context['decrypted'] = d_new_message
+                    context['decrypted'] = d_message
         data = get_chat(name)
         percent = int(request.form['percent'])
         number_to_decrypt = len(data['messages']) * percent // 100
@@ -240,10 +235,8 @@ def chat(name):
         messages.extend(data['messages'][:number_encrypted])
         for msg in data['messages'][number_encrypted:]:
             d_message = decrypt_text(msg['text'], derived_key)
-            d_created_at = decrypt_text(msg['created_at'], derived_key)
-            if d_message and d_created_at:
+            if d_message:
                 msg['text'] = d_message
-                msg['created_at'] = d_created_at
                 msg['decrypted'] = True
             messages.append(msg)
         context['messages'] = messages
@@ -255,17 +248,17 @@ def chat(name):
 
 @app.post('/chat/<name>/delete_chat')
 def delete_chat(name):
-    path = os.path.join(app.root_path, 'storage', f'{name}.json')
+    path = os.path.join(CHATS_DIR, f'{name}.json')
     if not os.path.isfile(path):
         return redirect(url_for('chat', name=name))
     os.remove(path)
     return redirect(url_for('home'))
 
 
-@app.route('/storage/<name>.json')
+@app.route('/chats/<name>.json')
 def chat_file(name):
     return send_from_directory(
-        os.path.join(app.root_path, 'storage'),
+        os.path.join(CHATS_DIR),
         f'{name}.json',
         mimetype='application/json',
     )

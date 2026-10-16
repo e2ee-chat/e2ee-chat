@@ -5,4 +5,4 @@ env/
 venv/
 node_modules/
 package-lock.json
-storage/
+chats/

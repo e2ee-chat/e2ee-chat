@@ -4,34 +4,27 @@
   <div class="flex items-center gap-1.5 font-semibold mb-5">
     <a href="{{ url_for('home') }}" class="btn btn-ghost btn-circle">
       <span class="icon icon-arrow-back"></span>
-    </a>
-    Create chat
+    </a>Create chat
   </div>
   <form method="post" class="border border-base-300 p-5 rounded-box" data-clear-clipboard>
     <p class="text-sm text-base-content/60">
       Save the chat name and private key in your password manager.
       The private key is available only on this page.
     </p>
-    <div class="text-sm mt-4 mb-1">
-      <label for="chat-name">Chat name</label>
-    </div>
-    <input type="text" id="chat-name" name="chat_name" value="{{ name }}" class="input w-full" readonly>
-    <button type="button" data-copy-target="chat-name" class="btn mt-1.5 disabled:text-base-content/80">
+    <label for="name" class="form-label mt-4">Chat name</label>
+    <input type="text" id="name" name="name" value="{{ name }}" class="input" readonly>
+    <button type="button" data-copy-target="name" class="btn mt-1.5">
       Copy chat name
     </button>
-    <div class="text-sm mt-4 mb-1">
-      <label for="private-key">Private key</label>
-    </div>
-    <input type="password" id="private-key" value="{{ private_key }}" class="input w-full" readonly
+    <label for="private_key" class="form-label mt-4">Private key</label>
+    <input type="password" id="private_key" value="{{ private_key }}" class="input" readonly
       spellcheck="false" autocorrect="off" autocapitalize="none" autocomplete="off"
     >
-    <button type="button" data-copy-target="private-key" class="btn mt-1.5 disabled:text-base-content/80">
+    <button type="button" data-copy-target="private_key" class="btn mt-1.5">
       Copy private key
     </button>
-    <div class="text-sm mt-4 mb-1">
-      <label for="public-key">Public key</label>
-    </div>
-    <input type="text" id="public-key" name="public_key" value="{{ public_key }}" class="input w-full" readonly>
+    <label for="public_key" class="form-label mt-4">Public key</label>
+    <textarea name="public_key" id="public_key" class="textarea" readonly>{{ public_key }}</textarea>
     <button type="submit" class="btn btn-primary mt-5">Create chat</button>
   </form>
 </div>
