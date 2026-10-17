@@ -15,8 +15,8 @@ from flask import (
     request,
     render_template,
     redirect,
-    send_from_directory,
     url_for,
+    send_from_directory,
     abort,
 )
 
@@ -196,9 +196,8 @@ def chat(name):
         'hash': hash,
     }
     if request.method == 'POST':
-        private_key_b64 = request.form['private_key'].strip()
-        peer_public_key_b64 = data['peer_public_key']
-        derived_key = derive_key(private_key_b64, peer_public_key_b64)
+        private_key = request.form['private_key'].strip()
+        derived_key = derive_key(private_key, data['peer_public_key'])
         if derived_key is None:
             return redirect(url_for('chat', name=name))
         message = request.form['message'].strip()

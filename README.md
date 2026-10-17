@@ -1,6 +1,6 @@
 # E2EE Chat
 
-End-to-end encrypted messaging tool for desktop.
+Desktop app for end-to-end message encryption.
 
 ## Install and run
 
@@ -14,14 +14,14 @@ py e2ee_chat.py
 macOS/Linux:
 
 ```bash
-pip install -r requirements.txt
+python3 -m pip install -r requirements.txt
 python3 e2ee_chat.py
 ```
 
-Open 127.0.0.1:5000
+Then open http://127.0.0.1:5000 in your browser.
 
-## Algorithm
+## Cryptographic algorithms
 
-1. X448
-2. HKDF
-3. AES-256-GCM
+- Key exchange: X448
+- Key derivation: HKDF
+- Message encryption: AES-256-GCM
