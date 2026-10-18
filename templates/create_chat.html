@@ -12,7 +12,7 @@
       The private key is available only on this page.
     </p>
     <label for="name" class="form-label mt-4">Chat name</label>
-    <input type="text" id="name" name="name" value="{{ name }}" class="input" readonly>
+    <input type="text" id="name" name="name" value="{{ name }}" class="input" readonly autocomplete="off">
     <button type="button" data-copy-target="name" class="btn mt-1.5">
       Copy chat name
     </button>
@@ -24,7 +24,9 @@
       Copy private key
     </button>
     <label for="public_key" class="form-label mt-4">Public key</label>
-    <textarea name="public_key" id="public_key" class="textarea" readonly>{{ public_key }}</textarea>
+    <textarea name="public_key" id="public_key" class="textarea break-all resize-none"
+      readonly
+    >{{ public_key }}</textarea>
     <button type="submit" class="btn btn-primary mt-5">Create chat</button>
   </form>
 </div>

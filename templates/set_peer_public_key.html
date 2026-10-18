@@ -24,12 +24,14 @@
       Paste the public key received from the other party.
     </p>
     <label for="public_key" class="form-label mt-4">Public key</label>
-    <textarea id="public_key" class="textarea" readonly>{{ public_key }}</textarea>
+    <textarea id="public_key" class="textarea break-all resize-none" readonly>{{ public_key }}</textarea>
     <button type="button" data-copy-target="public_key" class="btn mt-1.5">
       Copy public key
     </button>
     <label for="peer_public_key" class="form-label mt-4">Peer public key</label>
-    <textarea name="peer_public_key" id="peer_public_key" class="textarea" autocomplete="off" required></textarea>
+    <textarea name="peer_public_key" id="peer_public_key" class="textarea break-all resize-none"
+      autocomplete="off" required
+    ></textarea>
     <button type="submit" class="btn btn-primary mt-5">Set peer public key</button>
   </form>
 </div>

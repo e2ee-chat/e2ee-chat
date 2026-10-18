@@ -2395,6 +2395,9 @@
       outline-offset: 2px;
     }
   }
+  .resize-none {
+    resize: none;
+  }
   .items-center {
     align-items: center;
   }
