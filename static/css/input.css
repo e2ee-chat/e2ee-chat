@@ -74,11 +74,20 @@
 .input, .textarea, .select {
   @apply w-full;
 }
+.input:hover, .textarea:hover, .select:hover {
+  @apply border-base-content/35;
+}
+.input:focus, .textarea:focus, .select:focus {
+  @apply border-base-content!;
+}
+.input:disabled, .textarea:disabled, .select:disabled {
+  @apply border-transparent;
+}
 .form-label {
-  @apply block text-sm pb-1;
+  @apply block text-sm font-semibold pb-1;
 }
 .btn:disabled {
-  @apply text-base-content/80;
+  @apply text-base-content/75;
 }
 .icon {
   width: 18px;

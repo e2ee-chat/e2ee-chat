@@ -2416,6 +2416,9 @@
   .rounded-box {
     border-radius: var(--radius-box);
   }
+  .rounded-none {
+    border-radius: 0;
+  }
   .border {
     border-style: var(--tw-border-style);
     border-width: 1px;
@@ -2642,8 +2645,21 @@
     .group-hover\:bg-base-content\!:is(:where(.group):hover *) {
       background-color: var(--color-base-content) !important;
     }
-    .hover\:bg-base-200:hover {
+    .hover\:bg-base-200\/60:hover {
       background-color: var(--color-base-200);
+    }
+    @supports (color: color-mix(in lab, red, red)) {
+      .hover\:bg-base-200\/60:hover {
+        background-color: color-mix(in oklab, var(--color-base-200) 60%, transparent);
+      }
+    }
+    .hover\:bg-base-200\/90:hover {
+      background-color: var(--color-base-200);
+    }
+    @supports (color: color-mix(in lab, red, red)) {
+      .hover\:bg-base-200\/90:hover {
+        background-color: color-mix(in oklab, var(--color-base-200) 90%, transparent);
+      }
     }
     .hover\:text-base-content\/80:hover {
       color: var(--color-base-content);
@@ -2658,6 +2674,9 @@
       box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
     }
   }
+  .focus\:bg-base-100:focus {
+    background-color: var(--color-base-100);
+  }
   .focus-visible\:outline-2:focus-visible {
     outline-style: var(--tw-outline-style);
     outline-width: 2px;
@@ -2666,20 +2685,44 @@
     --tw-outline-style: solid;
     outline-style: solid;
   }
+  .active\:bg-base-200\/70:active {
+    background-color: var(--color-base-200);
+    @supports (color: color-mix(in lab, red, red)) {
+      background-color: color-mix(in oklab, var(--color-base-200) 70%, transparent);
+    }
+  }
+  .active\:shadow-xs:active {
+    --tw-shadow: 0 1px 2px 0 var(--tw-shadow-color, rgb(0 0 0 / 0.05));
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
 }
 .input, .textarea, .select {
   width: 100%;
+}
+.input:hover, .textarea:hover, .select:hover {
+  border-color: var(--color-base-content);
+  @supports (color: color-mix(in lab, red, red)) {
+    border-color: color-mix(in oklab, var(--color-base-content) 35%, transparent);
+  }
+}
+.input:focus, .textarea:focus, .select:focus {
+  border-color: var(--color-base-content) !important;
+}
+.input:disabled, .textarea:disabled, .select:disabled {
+  border-color: transparent;
 }
 .form-label {
   display: block;
   padding-bottom: var(--spacing);
   font-size: var(--text-sm);
   line-height: var(--tw-leading, var(--text-sm--line-height));
+  --tw-font-weight: var(--font-weight-semibold);
+  font-weight: var(--font-weight-semibold);
 }
 .btn:disabled {
   color: var(--color-base-content);
   @supports (color: color-mix(in lab, red, red)) {
-    color: color-mix(in oklab, var(--color-base-content) 80%, transparent);
+    color: color-mix(in oklab, var(--color-base-content) 75%, transparent);
   }
 }
 .icon {

@@ -15,9 +15,9 @@
     <a href="{{ url_for('create_chat') }}" class="btn btn-lg">Create chat</a>
   </div>
   {% for name, number in chats %}
-  <a href="{{ url_for('chat', name=name) }}" class="card border border-base-300 bg-base-100
-    hover:bg-base-200 transition duration-200 ease-out shadow-xs hover:shadow-md
-    focus-visible:outline-solid focus-visible:outline-2 mb-2 overflow-hidden"
+  <a href="{{ url_for('chat', name=name) }}" class="card border border-base-300 bg-base-100 mb-2
+    shadow-xs hover:bg-base-200/90 hover:shadow-md transition duration-200 ease-out overflow-hidden
+    focus-visible:outline-solid focus-visible:outline-2 active:bg-base-200/70 active:shadow-xs"
   >
     <div class="card-body">
       <h2 class="card-title">{{ name }}</h2>
