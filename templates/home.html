@@ -6,26 +6,30 @@
     <a href="https://github.com/e2ee-chat/e2ee-chat" target="_blank"
       class="btn btn-sm btn-circle btn-link group" title="GitHub"
     >
-      <span class="icon icon-github bg-base-content/70! group-hover:bg-base-content!"></span>
+      <span class="icon icon-github icon-lg bg-base-content/60! group-hover:bg-base-content!"></span>
     </a>
   </div>
 </div>
-<div class="max-w-sm mx-auto px-2 mt-2 mb-8">
-  <div class="flex justify-center mb-4">
+<div class="max-w-sm mx-auto px-2 mt-1 mb-8">
+  <div class="flex justify-center">
     <a href="{{ url_for('create_chat') }}" class="btn btn-lg">Create chat</a>
   </div>
-  {% for name, number in chats %}
-  <a href="{{ url_for('chat', name=name) }}" class="card border border-base-300 bg-base-100 mb-2
-    shadow-xs hover:bg-base-200/90 hover:shadow-md transition duration-200 ease-out overflow-hidden
-    focus-visible:outline-solid focus-visible:outline-2 active:bg-base-200/70 active:shadow-xs"
-  >
-    <div class="card-body">
-      <h2 class="card-title">{{ name }}</h2>
-      <p class="text-sm text-base-content/50">
-        {{ number }} {% if number == 1 %}message{% else %}messages{% endif %}
-      </p>
-    </div>
-  </a>
-  {% endfor %}
+  {% if chats %}
+  <ul class="list bg-base-100 rounded-box shadow-md mt-2">
+    <li class="px-4 pt-2 pb-1 text-xs text-base-content/50 font-mono tracking-wider">Chats</li>
+    {% for name, number in chats %}
+    <li>
+      <a href="{{ url_for('chat', name=name) }}" class="list-row list-row-chat">
+        <div>
+          <div class="text-lg font-semibold">{{ name }}</div>
+          <div class="text-sm text-base-content/50 mt-1">
+            {{ number }} {% if number == 1 %}message{% else %}messages{% endif %}
+          </div>
+        </div>
+      </a>
+    </li>
+    {% endfor %}
+  </ul>
+  {% endif %}
 </div>
 {% endblock %}

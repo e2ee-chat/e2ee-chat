@@ -77,7 +77,7 @@
 .input:hover, .textarea:hover, .select:hover {
   @apply border-base-content/35;
 }
-.input:focus, .textarea:focus, .select:focus {
+.input:focus, .textarea:focus, .select:focus, select:open {
   @apply border-base-content!;
 }
 .input:disabled, .textarea:disabled, .select:disabled {
@@ -87,12 +87,14 @@
   @apply block text-sm font-semibold pb-1;
 }
 .btn:disabled {
-  @apply text-base-content/75;
+  @apply text-base-content/80;
+}
+.list-row-chat {
+  @apply hover:bg-base-200 active:bg-base-300 transition-colors ease-out;
+  @apply duration-200 focus-visible:outline-solid focus-visible:outline-2;
 }
 .icon {
-  width: 18px;
-  height: 18px;
-  background-color: var(--color-base-content);
+  @apply w-4.5 h-4.5 bg-base-content;
   mask-position: center;
   mask-size: contain;
   mask-repeat: no-repeat;
@@ -100,19 +102,22 @@
   -webkit-mask-size: contain;
   -webkit-mask-repeat: no-repeat;
 }
-.icon-arrow-back {
-  mask-image: url("../img/arrow_back.svg");
-  -webkit-mask-image: url("../img/arrow_back.svg");
+.icon-lg {
+  @apply w-5! h-5!;
+}
+.icon-arrow-left {
+  mask-image: url("../img/arrow-left-solid.svg");
+  -webkit-mask-image: url("../img/arrow-left-solid.svg");
 }
 .icon-more {
-  mask-image: url("../img/more.svg");
-  -webkit-mask-image: url("../img/more.svg");
+  mask-image: url("../img/ellipsis-vertical-solid.svg");
+  -webkit-mask-image: url("../img/ellipsis-vertical-solid.svg");
 }
 .icon-close {
-  mask-image: url("../img/close.svg");
-  -webkit-mask-image: url("../img/close.svg");
+  mask-image: url("../img/xmark-solid.svg");
+  -webkit-mask-image: url("../img/xmark-solid.svg");
 }
 .icon-github {
-  mask-image: url("../img/github.svg");
-  -webkit-mask-image: url("../img/github.svg");
+  mask-image: url("../img/github-brands-solid.svg");
+  -webkit-mask-image: url("../img/github-brands-solid.svg");
 }

@@ -25,6 +25,7 @@ document.querySelectorAll('button[data-copy-target]').forEach((button) => {
 
 const messageField = document.getElementById('message');
 const operationField = document.getElementById('operation');
+const messages = document.getElementById('messages');
 
 if (messageField) {
   window.scrollTo(0, document.body.scrollHeight);
@@ -40,6 +41,11 @@ if (messageField) {
   messageField.addEventListener('input', () => {
     messageField.style.height = 'auto';
     messageField.style.height = `${messageField.scrollHeight}px`;
+    if (messageField.scrollHeight >= 220) {
+      messages.style.paddingBottom = `${220}px`;
+    } else {
+      messages.style.paddingBottom = `${messageField.scrollHeight + 12}px`;
+    }
     if (!operationField) {
       return;
     }
