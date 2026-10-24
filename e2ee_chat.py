@@ -38,6 +38,7 @@ def generate_keys() -> tuple[str, str]:
 def derive_key(
     private_key_b64: str,
     peer_public_key_b64: str,
+    verification_hash: str,
 ) -> bytes | None:
     try:
         private_b = base64.b64decode(private_key_b64)
@@ -45,10 +46,11 @@ def derive_key(
         private_key = X448PrivateKey.from_private_bytes(private_b)
         peer_public_key = X448PublicKey.from_public_bytes(public_b)
         shared_key = private_key.exchange(peer_public_key)
+        salt = base64.b64decode(verification_hash)
         hkdf = HKDF(
             algorithm=hashes.SHA256(),
             length=32,
-            salt=None,
+            salt=salt,
             info=b'E2EE Chat | X448 | AES-256-GCM',
         )
         derived_key = hkdf.derive(shared_key)
@@ -57,9 +59,34 @@ def derive_key(
         return None
 
 
-def encrypt_text(plaintext: str, key: bytes) -> str:
+def get_nonces(messages: list) -> list:
+    nonces = []
+    for msg in messages:
+        nonce_b64 = msg['text'].split('|')[0]
+        nonces.append(nonce_b64)
+    return nonces
+
+
+def generate_nonce(messages: list) -> bytes:
+    nonces = get_nonces(messages)
+    while True:
+        nonce = os.urandom(12)
+        nonce_b64 = base64.b64encode(nonce).decode()
+        if nonce_b64 not in nonces:
+            return nonce
+
+
+def nonce_exists(message: str, messages: list) -> bool:
+    nonces = get_nonces(messages)
+    nonce_b64 = message.split('|')[0]
+    if nonce_b64 in nonces:
+        return True
+    else:
+        return False
+
+
+def encrypt_text(plaintext: str, key: bytes, nonce: bytes) -> str:
     aesgcm = AESGCM(key)
-    nonce = os.urandom(12)
     ciphertext = aesgcm.encrypt(nonce, plaintext.encode(), None)
     nonce_b64 = base64.b64encode(nonce).decode()
     ciphertext_b64 = base64.b64encode(ciphertext).decode()
@@ -197,7 +224,7 @@ def chat(name):
     }
     if request.method == 'POST':
         private_key = request.form['private_key'].strip()
-        derived_key = derive_key(private_key, data['peer_public_key'])
+        derived_key = derive_key(private_key, data['peer_public_key'], hash)
         if derived_key is None:
             return redirect(url_for('chat', name=name))
         message = request.form['message'].strip()
@@ -206,7 +233,8 @@ def chat(name):
             messages = []
             messages.extend(data['messages'])
             if operation == 'encrypt':
-                e_message = encrypt_text(message, derived_key)
+                nonce = generate_nonce(messages)
+                e_message = encrypt_text(message, derived_key, nonce)
                 messages.append({
                     'text': e_message,
                     'created_at': get_utc_now(),
@@ -217,7 +245,8 @@ def chat(name):
                 context['encrypted'] = e_message
             elif operation == 'decrypt':
                 d_message = decrypt_text(message, derived_key)
-                if d_message:
+                n_exists = nonce_exists(message, messages)
+                if d_message is not None and not n_exists:
                     messages.append({
                         'text': message,
                         'created_at': get_utc_now(),
