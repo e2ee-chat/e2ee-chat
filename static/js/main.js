@@ -53,7 +53,7 @@ if (messageField) {
     if (message) {
       operationField.disabled = false;
       const parts = message.split('|');
-      if (parts.length === 2 && parts[0].length === 16) {
+      if (parts.length === 2 && parts[0].length === 16 && !/\s/.test(message)) {
         operationField.value = 'decrypt';
       } else {
         operationField.value = 'encrypt';
