@@ -1,6 +1,6 @@
 # E2EE Chat
 
-Desktop app for end-to-end message encryption.
+A local web app for end-to-end message encryption.
 
 ## Install and run
 
