@@ -5,7 +5,7 @@ function copyToClipboard(button) {
     return;
   }
   const originalText = button.textContent;
-  navigator.clipboard.writeText(targetField.value)
+  navigator.clipboard.writeText(targetField.value.trim())
     .then(() => {
       button.textContent = 'Copied';
       button.disabled = true;
@@ -26,7 +26,6 @@ document.querySelectorAll('button[data-copy-target]').forEach((button) => {
 const messageField = document.getElementById('message');
 const operationField = document.getElementById('operation');
 const messages = document.getElementById('messages');
-
 if (messageField) {
   window.scrollTo(0, document.body.scrollHeight);
   document.querySelectorAll('.created-at').forEach((element) => {
@@ -46,33 +45,44 @@ if (messageField) {
     } else {
       messages.style.paddingBottom = `${messageField.scrollHeight + 12}px`;
     }
-    if (!operationField) {
-      return;
-    }
     const message = messageField.value.trim();
     if (message) {
-      operationField.disabled = false;
       const parts = message.split('|');
       if (parts.length === 2 && parts[0].length === 16 && !/\s/.test(message)) {
-        operationField.value = 'decrypt';
+        operationField.value = 'Decrypt';
       } else {
-        operationField.value = 'encrypt';
+        operationField.value = 'Encrypt';
       }
     } else {
-      operationField.disabled = true;
+      operationField.value = '-';
     }
   });
 }
 
 const encryptDecryptForm = document.getElementById('encrypt-decrypt-form');
 const messageForFormField = document.getElementById('message-for-form');
-
 if (encryptDecryptForm && messageField && messageForFormField) {
   encryptDecryptForm.addEventListener('submit', () => {
     const message = messageField.value.trim();
     if (message) {
       messageForFormField.value = message;
     }
+    navigator.clipboard.writeText('')
+      .catch((error) => console.error(error));
+  });
+}
+
+const createChatForm = document.getElementById('create-chat-form');
+if (createChatForm) {
+  let submittingForm = false;
+  window.addEventListener('beforeunload', (event) => {
+    if (submittingForm) {
+      return;
+    };
+    event.preventDefault();
+  });
+  createChatForm.addEventListener('submit', () => {
+    submittingForm = true;
     navigator.clipboard.writeText('')
       .catch((error) => console.error(error));
   });

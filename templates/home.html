@@ -2,7 +2,7 @@
 {% block main %}
 <div class="max-w-215 mx-auto px-2 py-1">
   <div class="flex justify-between items-center">
-    <div class="text-lg font-semibold">E2EE Chat</div>
+    <a href="{{ url_for('home') }}" class="link link-hover text-lg font-semibold">E2EE Chat</a>
     <a href="https://github.com/e2ee-chat/e2ee-chat" target="_blank"
       class="btn btn-sm btn-circle btn-link group" title="GitHub"
     >
@@ -10,12 +10,12 @@
     </a>
   </div>
 </div>
-<div class="max-w-sm mx-auto px-2 mt-1 mb-8">
+<div class="max-w-100 mx-auto px-2 mt-1 mb-8">
   <div class="flex justify-center">
     <a href="{{ url_for('create_chat') }}" class="btn btn-lg">Create chat</a>
   </div>
   {% if chats %}
-  <ul class="list bg-base-100 rounded-box shadow-xs border border-base-300/40 mt-3">
+  <ul class="list bg-base-100 rounded-box shadow-xs border border-base-300/40 mt-4">
     <li class="px-4 pt-2 pb-1 text-xs text-base-content/50 font-mono tracking-wider">Chats</li>
     {% for name, number in chats %}
     <li>

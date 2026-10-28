@@ -232,7 +232,7 @@ def chat(name):
             operation = request.form['operation']
             messages = []
             messages.extend(data['messages'])
-            if operation == 'encrypt':
+            if operation == 'Encrypt':
                 nonce = generate_nonce(messages)
                 e_message = encrypt_text(message, derived_key, nonce)
                 messages.append({
@@ -243,7 +243,7 @@ def chat(name):
                 data['messages'] = messages
                 save_chat(name, data)
                 context['encrypted'] = e_message
-            elif operation == 'decrypt':
+            elif operation == 'Decrypt':
                 d_message = decrypt_text(message, derived_key)
                 n_exists = nonce_exists(message, messages)
                 if d_message is not None and not n_exists:

@@ -89,9 +89,6 @@
 .btn:disabled {
   @apply text-base-content/80;
 }
-.select:disabled {
-  @apply bg-base-200/50;
-}
 .list-row-chat {
   @apply hover:bg-base-200 active:bg-base-300 transition-colors ease-out;
   @apply duration-200 focus-visible:outline-solid focus-visible:outline-2;
