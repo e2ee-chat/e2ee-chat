@@ -12,7 +12,7 @@ function copyToClipboard(button) {
       setTimeout(() => {
         button.textContent = originalText;
         button.disabled = false;
-      }, 1500);
+      }, 2000);
     })
     .catch((error) => console.error(error));
 }
@@ -22,6 +22,23 @@ document.querySelectorAll('button[data-copy-target]').forEach((button) => {
     copyToClipboard(button);
   });
 });
+
+const createChatForm = document.getElementById('create-chat-form');
+if (createChatForm) {
+  let submittingForm = false;
+  window.addEventListener('beforeunload', (event) => {
+    if (submittingForm) {
+      return;
+    };
+    event.preventDefault();
+    event.returnValue = '';
+  });
+  createChatForm.addEventListener('submit', () => {
+    submittingForm = true;
+    navigator.clipboard.writeText('')
+      .catch((error) => console.error(error));
+  });
+}
 
 const messageField = document.getElementById('message');
 const operationField = document.getElementById('operation');
@@ -67,22 +84,6 @@ if (encryptDecryptForm && messageField && messageForFormField) {
     if (message) {
       messageForFormField.value = message;
     }
-    navigator.clipboard.writeText('')
-      .catch((error) => console.error(error));
-  });
-}
-
-const createChatForm = document.getElementById('create-chat-form');
-if (createChatForm) {
-  let submittingForm = false;
-  window.addEventListener('beforeunload', (event) => {
-    if (submittingForm) {
-      return;
-    };
-    event.preventDefault();
-  });
-  createChatForm.addEventListener('submit', () => {
-    submittingForm = true;
     navigator.clipboard.writeText('')
       .catch((error) => console.error(error));
   });
