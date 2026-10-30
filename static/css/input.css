@@ -108,19 +108,30 @@
 .icon-lg {
   @apply w-5 h-5;
 }
+.icon-muted {
+  @apply bg-base-content/60;
+}
 .icon-arrow-left {
-  mask-image: url("../img/arrow-left-solid.svg");
-  -webkit-mask-image: url("../img/arrow-left-solid.svg");
+  mask-image: url("../img/arrow-left-solid-full.svg");
+  -webkit-mask-image: url("../img/arrow-left-solid-full.svg");
 }
-.icon-more {
-  mask-image: url("../img/ellipsis-vertical-solid.svg");
-  -webkit-mask-image: url("../img/ellipsis-vertical-solid.svg");
+.icon-ellipsis-vertical {
+  mask-image: url("../img/ellipsis-vertical-solid-full.svg");
+  -webkit-mask-image: url("../img/ellipsis-vertical-solid-full.svg");
 }
-.icon-close {
-  mask-image: url("../img/xmark-solid.svg");
-  -webkit-mask-image: url("../img/xmark-solid.svg");
+.icon-copy {
+  mask-image: url("../img/copy-regular-full.svg");
+  -webkit-mask-image: url("../img/copy-regular-full.svg");
+}
+.icon-check {
+  mask-image: url("../img/check-solid-full.svg");
+  -webkit-mask-image: url("../img/check-solid-full.svg");
+}
+.icon-xmark {
+  mask-image: url("../img/xmark-solid-full.svg");
+  -webkit-mask-image: url("../img/xmark-solid-full.svg");
 }
 .icon-github {
-  mask-image: url("../img/github-brands-solid.svg");
-  -webkit-mask-image: url("../img/github-brands-solid.svg");
+  mask-image: url("../img/github-brands-solid-full.svg");
+  -webkit-mask-image: url("../img/github-brands-solid-full.svg");
 }

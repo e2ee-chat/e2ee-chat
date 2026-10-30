@@ -13,7 +13,7 @@
         <button class="btn" onclick="encrypt_decrypt_modal.showModal()">Encrypt / Decrypt</button>
         <div class="dropdown dropdown-end">
           <div tabindex="0" role="button" class="btn btn-ghost btn-circle">
-            <span class="icon icon-more"></span>
+            <span class="icon icon-ellipsis-vertical"></span>
           </div>
           <ul tabindex="-1" class="dropdown-content menu bg-base-100 rounded-box
             border border-base-300/80 z-20 w-52 mt-1.5 shadow-md"
@@ -54,7 +54,7 @@
   <div class="modal-box">
     <form method="dialog">
       <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
-        <span class="icon icon-close"></span>
+        <span class="icon icon-xmark"></span>
       </button>
     </form>
     <h3 class="text-lg font-semibold mb-5">Encrypt / Decrypt</h3>
@@ -79,7 +79,8 @@
     <label for="encrypted" class="form-label mt-4">Encrypted message</label>
     <textarea id="encrypted" class="textarea break-all" readonly>{{ encrypted }}</textarea>
     <button data-copy-target="encrypted" class="btn mt-1.5">
-      Copy encrypted message
+      <span class="icon icon-copy icon-muted"></span>
+      <span>Copy encrypted message</span>
     </button>
     {% elif decrypted %}
     <label for="decrypted" class="form-label mt-4">Decrypted message</label>
@@ -92,7 +93,7 @@
   <div class="modal-box">
     <form method="dialog">
       <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
-        <span class="icon icon-close"></span>
+        <span class="icon icon-xmark"></span>
       </button>
     </form>
     <h3 class="text-lg font-semibold mb-5">Verify public keys</h3>
@@ -103,7 +104,8 @@
     <label for="hash" class="form-label mt-4">Verification hash</label>
     <input type="text" id="hash" value="{{ hash }}" class="input" readonly>
     <button data-copy-target="hash" class="btn mt-1.5">
-      Copy verification hash
+      <span class="icon icon-copy icon-muted"></span>
+      <span>Copy verification hash</span>
     </button>
     <div class="modal-action">
       <form method="dialog">

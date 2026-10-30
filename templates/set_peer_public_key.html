@@ -9,7 +9,7 @@
     </div>
     <div class="dropdown dropdown-end">
       <div tabindex="0" role="button" class="btn btn-ghost btn-circle">
-        <span class="icon icon-more"></span>
+        <span class="icon icon-ellipsis-vertical"></span>
       </div>
       <ul tabindex="-1" class="dropdown-content menu bg-base-100 rounded-box
         border border-base-300/80 z-20 w-52 mt-1.5 shadow-md"
@@ -26,7 +26,8 @@
     <label for="public_key" class="form-label mt-4">Public key</label>
     <textarea id="public_key" class="textarea break-all resize-none" readonly>{{ public_key }}</textarea>
     <button type="button" data-copy-target="public_key" class="btn mt-1.5">
-      Copy public key
+      <span class="icon icon-copy icon-muted"></span>
+      <span>Copy public key</span>
     </button>
     <label for="peer_public_key" class="form-label mt-4">Peer public key</label>
     <textarea name="peer_public_key" id="peer_public_key" class="textarea break-all resize-none"

@@ -4,13 +4,17 @@ function copyToClipboard(button) {
   if (!targetField || !targetField.value.trim()) {
     return;
   }
-  const originalText = button.textContent;
+  const buttonIcon = button.querySelector('.icon');
+  const buttonText = button.querySelectorAll('span')[1];
+  const originalText = buttonText.textContent;
   navigator.clipboard.writeText(targetField.value.trim())
     .then(() => {
-      button.textContent = 'Copied';
+      buttonIcon.classList.replace('icon-copy', 'icon-check');
+      buttonText.textContent = 'Copied';
       button.disabled = true;
       setTimeout(() => {
-        button.textContent = originalText;
+        buttonIcon.classList.replace('icon-check', 'icon-copy');
+        buttonText.textContent = originalText;
         button.disabled = false;
       }, 2000);
     })
