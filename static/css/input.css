@@ -105,33 +105,36 @@
   -webkit-mask-size: contain;
   -webkit-mask-repeat: no-repeat;
 }
+.icon-sm {
+  @apply w-4 h-4;
+}
 .icon-lg {
-  @apply w-5 h-5;
+  @apply w-5.5 h-5.5;
 }
 .icon-muted {
   @apply bg-base-content/60;
 }
 .icon-arrow-left {
-  mask-image: url("../img/arrow-left-solid-full.svg");
-  -webkit-mask-image: url("../img/arrow-left-solid-full.svg");
+  mask-image: url("../img/arrow-left.svg");
+  -webkit-mask-image: url("../img/arrow-left.svg");
 }
 .icon-ellipsis-vertical {
-  mask-image: url("../img/ellipsis-vertical-solid-full.svg");
-  -webkit-mask-image: url("../img/ellipsis-vertical-solid-full.svg");
+  mask-image: url("../img/ellipsis-vertical.svg");
+  -webkit-mask-image: url("../img/ellipsis-vertical.svg");
 }
 .icon-copy {
-  mask-image: url("../img/copy-regular-full.svg");
-  -webkit-mask-image: url("../img/copy-regular-full.svg");
+  mask-image: url("../img/copy.svg");
+  -webkit-mask-image: url("../img/copy.svg");
 }
 .icon-check {
-  mask-image: url("../img/check-solid-full.svg");
-  -webkit-mask-image: url("../img/check-solid-full.svg");
+  mask-image: url("../img/check.svg");
+  -webkit-mask-image: url("../img/check.svg");
 }
-.icon-xmark {
-  mask-image: url("../img/xmark-solid-full.svg");
-  -webkit-mask-image: url("../img/xmark-solid-full.svg");
+.icon-x {
+  mask-image: url("../img/x.svg");
+  -webkit-mask-image: url("../img/x.svg");
 }
 .icon-github {
-  mask-image: url("../img/github-brands-solid-full.svg");
-  -webkit-mask-image: url("../img/github-brands-solid-full.svg");
+  mask-image: url("../img/github.svg");
+  -webkit-mask-image: url("../img/github.svg");
 }
