@@ -1,4 +1,4 @@
-/*! tailwindcss v4.3.3 | MIT License | https://tailwindcss.com */
+/*! tailwindcss v4.3.4 | MIT License | https://tailwindcss.com */
 @layer properties;
 @layer theme, base, components, utilities;
 @layer theme {
@@ -2668,7 +2668,7 @@
     }
   }
   @media (hover: hover) {
-    .group-hover\:bg-base-content\!:is(:where(.group):hover *) {
+    :is(:where(.group):hover .group-hover\:bg-base-content\!) {
       background-color: var(--color-base-content) !important;
     }
     .hover\:bg-base-200\/50:hover {
@@ -3074,20 +3074,20 @@
     --color-base-content: oklch(14% 0 0);
     --color-primary: oklch(57% 0.214 259.815);
     --color-primary-content: oklch(100% 0 0);
-    --color-secondary: oklch(55% 0.118 184.704);
-    --color-secondary-content: oklch(100% 0 0);
+    --color-secondary: oklch(40% 0.214 259.815);
+    --color-secondary-content: oklch(98% 0 0);
     --color-accent: oklch(59% 0.281 293.009);
     --color-accent-content: oklch(100% 0 0);
-    --color-neutral: oklch(43% 0 0);
+    --color-neutral: oklch(50% 0 0);
     --color-neutral-content: oklch(100% 0 0);
-    --color-info: oklch(78% 0.154 211.53);
-    --color-info-content: oklch(30% 0.056 229.695);
-    --color-success: oklch(79% 0.209 151.711);
-    --color-success-content: oklch(26% 0.065 152.934);
-    --color-warning: oklch(82% 0.189 84.429);
-    --color-warning-content: oklch(27% 0.077 45.635);
-    --color-error: oklch(70% 0.191 22.216);
-    --color-error-content: oklch(25% 0.092 26.042);
+    --color-info: oklch(60% 0.126 221.723);
+    --color-info-content: oklch(100% 0 0);
+    --color-success: oklch(59% 0.145 163.225);
+    --color-success-content: oklch(100% 0 0);
+    --color-warning: oklch(66% 0.179 58.318);
+    --color-warning-content: oklch(100% 0 0);
+    --color-error: oklch(63% 0.237 25.331);
+    --color-error-content: oklch(100% 0 0);
     --radius-selector: 0.5rem;
     --radius-field: 0.5rem;
     --radius-box: 1rem;
@@ -3106,20 +3106,20 @@
       --color-base-content: oklch(100% 0 0);
       --color-primary: oklch(57% 0.214 259.815);
       --color-primary-content: oklch(100% 0 0);
-      --color-secondary: oklch(55% 0.118 184.704);
-      --color-secondary-content: oklch(100% 0 0);
+      --color-secondary: oklch(77% 0.214 259.815);
+      --color-secondary-content: oklch(14% 0 0);
       --color-accent: oklch(59% 0.281 293.009);
       --color-accent-content: oklch(100% 0 0);
       --color-neutral: oklch(0% 0 0);
-      --color-neutral-content: oklch(97% 0 0);
-      --color-info: oklch(78% 0.154 211.53);
-      --color-info-content: oklch(30% 0.056 229.695);
-      --color-success: oklch(79% 0.209 151.711);
-      --color-success-content: oklch(26% 0.065 152.934);
-      --color-warning: oklch(82% 0.189 84.429);
-      --color-warning-content: oklch(27% 0.077 45.635);
-      --color-error: oklch(70% 0.191 22.216);
-      --color-error-content: oklch(25% 0.092 26.042);
+      --color-neutral-content: oklch(92% 0 0);
+      --color-info: oklch(60% 0.126 221.723);
+      --color-info-content: oklch(100% 0 0);
+      --color-success: oklch(59% 0.145 163.225);
+      --color-success-content: oklch(100% 0 0);
+      --color-warning: oklch(66% 0.179 58.318);
+      --color-warning-content: oklch(100% 0 0);
+      --color-error: oklch(63% 0.237 25.331);
+      --color-error-content: oklch(100% 0 0);
       --radius-selector: 0.5rem;
       --radius-field: 0.5rem;
       --radius-box: 1rem;
@@ -3138,20 +3138,20 @@
     --color-base-content: oklch(100% 0 0);
     --color-primary: oklch(57% 0.214 259.815);
     --color-primary-content: oklch(100% 0 0);
-    --color-secondary: oklch(55% 0.118 184.704);
-    --color-secondary-content: oklch(100% 0 0);
+    --color-secondary: oklch(77% 0.214 259.815);
+    --color-secondary-content: oklch(14% 0 0);
     --color-accent: oklch(59% 0.281 293.009);
     --color-accent-content: oklch(100% 0 0);
     --color-neutral: oklch(0% 0 0);
-    --color-neutral-content: oklch(97% 0 0);
-    --color-info: oklch(78% 0.154 211.53);
-    --color-info-content: oklch(30% 0.056 229.695);
-    --color-success: oklch(79% 0.209 151.711);
-    --color-success-content: oklch(26% 0.065 152.934);
-    --color-warning: oklch(82% 0.189 84.429);
-    --color-warning-content: oklch(27% 0.077 45.635);
-    --color-error: oklch(70% 0.191 22.216);
-    --color-error-content: oklch(25% 0.092 26.042);
+    --color-neutral-content: oklch(92% 0 0);
+    --color-info: oklch(60% 0.126 221.723);
+    --color-info-content: oklch(100% 0 0);
+    --color-success: oklch(59% 0.145 163.225);
+    --color-success-content: oklch(100% 0 0);
+    --color-warning: oklch(66% 0.179 58.318);
+    --color-warning-content: oklch(100% 0 0);
+    --color-error: oklch(63% 0.237 25.331);
+    --color-error-content: oklch(100% 0 0);
     --radius-selector: 0.5rem;
     --radius-field: 0.5rem;
     --radius-box: 1rem;
@@ -3254,7 +3254,7 @@
   initial-value: solid;
 }
 @layer properties {
-  @supports ((-webkit-hyphens: none) and (not (margin-trim: inline))) or ((-moz-orient: inline) and (not (color:rgb(from red r g b)))) {
+  @supports ((-webkit-hyphens: none) and (not (margin-trim: block))) or ((-moz-orient: inline) and (not (color:rgb(from red r g b)))) {
     *, ::before, ::after, ::backdrop {
       --tw-border-style: solid;
       --tw-font-weight: initial;

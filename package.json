@@ -1,11 +1,11 @@
 {
   "devDependencies": {
-    "@tailwindcss/cli": "^4.3.3",
+    "@tailwindcss/cli": "^4.3.4",
     "daisyui": "^5.7.50",
-    "tailwindcss": "^4.3.3"
+    "tailwindcss": "^4.3.4"
   },
   "scripts": {
-    "setup": "npm install tailwindcss@latest @tailwindcss/cli@latest daisyui@latest --save-dev",
-    "build:css": "npx @tailwindcss/cli -i ./static/css/input.css -o ./static/css/output.css --watch"
+    "build:css": "npx @tailwindcss/cli -i ./static/css/input.css -o ./static/css/output.css --watch",
+    "update:dev-deps": "npm install tailwindcss@latest @tailwindcss/cli@latest daisyui@latest --save-dev"
   }
 }
