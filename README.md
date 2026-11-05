@@ -1,6 +1,6 @@
 # E2EE Chat
 
-A local web app for end-to-end message encryption.
+A locally hosted web app for end-to-end message encryption.
 
 ## Cryptographic algorithms
 
