@@ -12,24 +12,28 @@
         <span class="icon icon-ellipsis-vertical"></span>
       </div>
       <ul tabindex="-1" class="dropdown-content menu bg-base-100 rounded-box
-        border border-base-300/80 z-20 w-52 mt-1.5 shadow-md"
+        border border-base-300 z-20 w-52 mt-1.5 shadow-md"
       >
         <li><button onclick="delete_chat_modal.showModal()">Delete chat</button></li>
       </ul>
     </div>
   </div>
-  <form method="post" class="border border-base-300/40 p-5 rounded-box" data-clear-clipboard>
+  <form method="post" class="border border-base-300/50 p-5 rounded-box" data-clear-clipboard>
     <p class="text-sm text-base-content/60">
       Send your public key to the other party.
       Paste the public key received from the other party.
     </p>
-    <label for="public_key" class="form-label mt-4">Public key</label>
+    <div>
+      <label for="public_key" class="form-label mt-4">Public key</label>
+    </div>
     <textarea id="public_key" class="textarea break-all resize-none" readonly>{{ public_key }}</textarea>
     <button type="button" data-copy-target="public_key" class="btn mt-1.5">
       <span class="icon icon-copy icon-muted icon-sm"></span>
       <span>Copy public key</span>
     </button>
-    <label for="peer_public_key" class="form-label mt-4">Peer public key</label>
+    <div>
+      <label for="peer_public_key" class="form-label mt-4">Peer public key</label>
+    </div>
     <textarea name="peer_public_key" id="peer_public_key" class="textarea break-all resize-none"
       autocomplete="off" required
     ></textarea>

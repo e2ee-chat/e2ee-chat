@@ -74,17 +74,8 @@
 .input, .textarea, .select {
   @apply w-full;
 }
-.input:hover, .textarea:hover, .select:hover {
-  @apply border-base-content/35;
-}
-.input:focus, .textarea:focus, .select:focus, select:open {
-  @apply border-base-content!;
-}
-.input:disabled, .textarea:disabled, .select:disabled {
-  @apply border-transparent;
-}
 .form-label {
-  @apply block text-sm font-semibold pb-1;
+  @apply inline-block text-sm font-semibold mb-1;
 }
 .btn:disabled {
   @apply text-base-content/80;
@@ -94,10 +85,10 @@
   @apply duration-200 focus-visible:outline-solid focus-visible:outline-2;
 }
 .list-row-chat::after {
-  @apply border-base-300/60;
+  @apply border-base-300/50;
 }
 .icon {
-  @apply w-4.5 h-4.5 bg-base-content;
+  @apply w-4.5 h-4.5 bg-base-content transition-colors ease-out duration-200;
   mask-position: center;
   mask-size: contain;
   mask-repeat: no-repeat;
@@ -113,6 +104,9 @@
 }
 .icon-muted {
   @apply bg-base-content/60;
+}
+.btn:hover .icon-hover {
+  @apply bg-base-content;
 }
 .icon-arrow-left {
   mask-image: url("../img/arrow-left.svg");

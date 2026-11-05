@@ -30,7 +30,7 @@ python3 -m pip install -r requirements.txt
 python3 e2ee_chat.py
 ```
 
-Then open <http://127.0.0.1:5000> in your browser.
+Then open `http://127.0.0.1:5000` in your browser.
 
 ## Security recommendations
 

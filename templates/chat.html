@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block main %}
-<div class="max-w-215 mx-auto min-h-screen border-x border-base-300/40">
-  <div class="bg-base-100 border-b border-base-300/40 shadow-xs sticky top-0 z-10">
+<div class="max-w-215 mx-auto min-h-screen border-x border-base-300/50">
+  <div class="bg-base-100 border-b border-base-300/50 shadow-xs sticky top-0 z-10">
     <div class="flex justify-between items-center gap-1.5 py-1.5 px-2">
       <div class="flex items-center gap-1.5 font-semibold">
         <a href="{{ url_for('home') }}" class="btn btn-ghost btn-circle">
@@ -16,7 +16,7 @@
             <span class="icon icon-ellipsis-vertical"></span>
           </div>
           <ul tabindex="-1" class="dropdown-content menu bg-base-100 rounded-box
-            border border-base-300/80 z-20 w-52 mt-1.5 shadow-md"
+            border border-base-300 z-20 w-52 mt-1.5 shadow-md"
           >
             <li><a href="{{ url_for('chat_file', name=name) }}" target="_blank">Chat file</a></li>
             <li><button onclick="verify_modal.showModal()">Verify public keys</button></li>
@@ -42,10 +42,9 @@
     </div>
     {% endfor %}
   </div>
-  <div class="fixed bottom-0 w-214.5 max-w-full bg-base-100 border-t border-base-300/40 z-10">
+  <div class="fixed bottom-0 w-214.5 max-w-full bg-base-100 border-t border-base-300/50 z-10">
     <textarea id="message" class="textarea py-3.5 px-4 text-base min-h-13 max-h-52 border-none
-      outline-none rounded-none shadow-none resize-none hover:bg-base-200/50 focus:bg-base-100
-      transition-colors ease-out duration-200" placeholder="Write a message..." rows="1"
+      outline-none rounded-none shadow-none resize-none" placeholder="Write a message..." rows="1"
       spellcheck="false" autocorrect="off" autocapitalize="none" autocomplete="off"
     ></textarea>
   </div>
@@ -59,16 +58,22 @@
     </form>
     <h3 class="text-lg font-semibold mb-5">Encrypt / Decrypt</h3>
     <form method="post" id="encrypt-decrypt-form">
-      <label for="operation" class="form-label">Operation for new message</label>
+      <div>
+        <label for="operation" class="form-label">Operation for new message</label>
+      </div>
       <input type="text" id="operation" name="operation" value="-" class="input" readonly>
-      <label for="percent" class="form-label mt-4">Percentage of decrypted messages</label>
+      <div>
+        <label for="percent" class="form-label mt-4">Percentage of decrypted messages</label>
+      </div>
       <select name="percent" id="percent" class="select">
         <option value="100"{% if percent == 100 %} selected{% endif %}>100%</option>
         <option value="75"{% if percent == 75 %} selected{% endif %}>75%</option>
         <option value="50"{% if percent == 50 %} selected{% endif %}>50%</option>
         <option value="25"{% if percent == 25 %} selected{% endif %}>25%</option>
       </select>
-      <label for="private_key" class="form-label mt-4">Private key</label>
+      <div>
+        <label for="private_key" class="form-label mt-4">Private key</label>
+      </div>
       <input type="password" id="private_key" name="private_key" class="input" required
         spellcheck="false" autocorrect="off" autocapitalize="none" autocomplete="off" autofocus
       >
@@ -76,14 +81,18 @@
       <button type="submit" class="btn btn-primary mt-5">Submit</button>
     </form>
     {% if encrypted %}
-    <label for="encrypted" class="form-label mt-4">Encrypted message</label>
+    <div>
+      <label for="encrypted" class="form-label mt-4">Encrypted message</label>
+    </div>
     <textarea id="encrypted" class="textarea break-all" readonly>{{ encrypted }}</textarea>
     <button data-copy-target="encrypted" class="btn mt-1.5">
       <span class="icon icon-copy icon-muted icon-sm"></span>
       <span>Copy encrypted message</span>
     </button>
     {% elif decrypted %}
-    <label for="decrypted" class="form-label mt-4">Decrypted message</label>
+    <div>
+      <label for="decrypted" class="form-label mt-4">Decrypted message</label>
+    </div>
     <textarea id="decrypted" class="textarea" readonly>{{ decrypted }}</textarea>
     {% endif %}
   </div>
@@ -101,7 +110,9 @@
       Before exchanging messages, compare the hashes of the public keys over a separate
       communication channel to verify that they match and that the keys have not been tampered with.
     </p>
-    <label for="hash" class="form-label mt-4">Verification hash</label>
+    <div>
+      <label for="hash" class="form-label mt-4">Verification hash</label>
+    </div>
     <input type="text" id="hash" value="{{ hash }}" class="input" readonly>
     <button data-copy-target="hash" class="btn mt-1.5">
       <span class="icon icon-copy icon-muted icon-sm"></span>

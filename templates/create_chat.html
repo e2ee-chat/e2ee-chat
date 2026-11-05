@@ -6,18 +6,22 @@
       <span class="icon icon-arrow-left"></span>
     </a>Create chat
   </div>
-  <form method="post" id="create-chat-form" class="border border-base-300/40 p-5 rounded-box">
+  <form method="post" id="create-chat-form" class="border border-base-300/50 p-5 rounded-box">
     <p class="text-sm text-base-content/60">
       Save the chat name and private key in your password manager.
       The private key is available only on this page.
     </p>
-    <label for="name" class="form-label mt-4">Chat name</label>
+    <div>
+      <label for="name" class="form-label mt-4">Chat name</label>
+    </div>
     <input type="text" id="name" name="name" value="{{ name }}" class="input" readonly autocomplete="off">
     <button type="button" data-copy-target="name" class="btn mt-1.5">
       <span class="icon icon-copy icon-muted icon-sm"></span>
       <span>Copy chat name</span>
     </button>
-    <label for="private_key" class="form-label mt-4">Private key</label>
+    <div>
+      <label for="private_key" class="form-label mt-4">Private key</label>
+    </div>
     <input type="password" id="private_key" value="{{ private_key }}" class="input" readonly
       spellcheck="false" autocorrect="off" autocapitalize="none" autocomplete="off"
     >
@@ -25,7 +29,9 @@
       <span class="icon icon-copy icon-muted icon-sm"></span>
       <span>Copy private key</span>
     </button>
-    <label for="public_key" class="form-label mt-4">Public key</label>
+    <div>
+      <label for="public_key" class="form-label mt-4">Public key</label>
+    </div>
     <textarea name="public_key" id="public_key" class="textarea break-all resize-none"
       readonly
     >{{ public_key }}</textarea>
