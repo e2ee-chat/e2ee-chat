@@ -31,7 +31,7 @@
     <div class="chat {% if msg.is_my_message %}chat-end{% else %}chat-start{% endif %}
       {% if not msg.decrypted %} break-all{% endif %}"
     >
-      <div class="chat-bubble{% if msg.is_my_message %} bg-primary/20{% endif %}">
+      <div class="chat-bubble {% if msg.is_my_message %}bg-primary/18 {% else %}bg-base-200{% endif %}">
         {{ msg.text }}
       </div>
       <div class="chat-footer text-base-content/50 hover:text-base-content/80">
