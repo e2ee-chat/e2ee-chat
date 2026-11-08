@@ -36,7 +36,7 @@ Then open `http://127.0.0.1:5000` in your browser.
 
 - Use a privacy-focused browser without extensions. Disable built-in extensions for `127.0.0.1`. Do not use page translation, synchronization, AI features, or other functions that read page content.
 - Before exchanging messages, compare the hashes of the public keys over a separate communication channel to verify that they match and that the keys have not been tampered with.
-- To prevent `nonce` reuse, do not send new messages until you have decrypted the other party's new messages. If a `nonce` is reused, create a new chat.
+- To prevent nonce reuse, do not send new messages until you have decrypted the other party's new messages. If a nonce is reused, create a new chat.
 
 ## Dependencies
 
