@@ -1,20 +1,41 @@
+const themeButton = document.getElementById('theme-button');
+if (themeButton) {
+  let theme = document.documentElement.getAttribute('data-theme');
+  const themeIcon = themeButton.querySelector('.icon');
+  if (theme === 'light') {
+    themeIcon.classList.add('icon-sun');
+  } else {
+    themeIcon.classList.add('icon-moon');
+  }
+  themeButton.addEventListener('click', () => {
+    if (theme === 'light') {
+      theme = 'dark';
+      themeIcon.classList.replace('icon-sun', 'icon-moon');
+    } else {
+      theme = 'light';
+      themeIcon.classList.replace('icon-moon', 'icon-sun');
+    }
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+  });
+}
+
 function copyToClipboard(button) {
   const targetId = button.getAttribute('data-copy-target');
   const targetField = document.getElementById(targetId);
-  if (!targetField || !targetField.value.trim()) {
-    return;
-  }
   const buttonIcon = button.querySelector('.icon');
   const buttonText = button.querySelectorAll('span')[1];
   const originalText = buttonText.textContent;
   navigator.clipboard.writeText(targetField.value.trim())
     .then(() => {
-      buttonIcon.classList.replace('icon-copy', 'icon-check');
       buttonText.textContent = 'Copied';
+      buttonIcon.classList.replace('icon-copy', 'icon-check');
+      buttonIcon.classList.replace('icon-muted', 'icon-success');
       button.disabled = true;
       setTimeout(() => {
-        buttonIcon.classList.replace('icon-check', 'icon-copy');
         buttonText.textContent = originalText;
+        buttonIcon.classList.replace('icon-check', 'icon-copy');
+        buttonIcon.classList.replace('icon-success', 'icon-muted');
         button.disabled = false;
       }, 2000);
     })
@@ -82,7 +103,7 @@ if (messageField) {
 
 const encryptDecryptForm = document.getElementById('encrypt-decrypt-form');
 const messageForFormField = document.getElementById('message-for-form');
-if (encryptDecryptForm && messageField && messageForFormField) {
+if (encryptDecryptForm) {
   encryptDecryptForm.addEventListener('submit', () => {
     const message = messageField.value.trim();
     if (message) {
