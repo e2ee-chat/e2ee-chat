@@ -1,5 +1,5 @@
 let initialTheme;
-let savedTheme = localStorage.getItem('theme');
+const savedTheme = localStorage.getItem('theme');
 if (savedTheme) {
   initialTheme = savedTheme;
 } else {
